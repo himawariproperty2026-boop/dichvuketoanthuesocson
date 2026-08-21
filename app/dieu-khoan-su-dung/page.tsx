@@ -22,18 +22,18 @@ export default function TermsPage() {
 
       <main className="flex-1">
         {/* Banner Hero */}
-        <section className="bg-slate-950 text-white py-14 sm:py-20 border-b border-slate-800">
+        <section className="bg-pastel-hero py-14 sm:py-20 border-b border-slate-200">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-            <div className="flex items-center justify-center gap-2 text-xs text-slate-400 mb-4">
-              <Link href="/" className="hover:text-amber-400">Trang chủ</Link>
+            <div className="flex items-center justify-center gap-2 text-xs text-slate-500 mb-4 font-semibold">
+              <Link href="/" className="hover:text-[#D7181F]">Trang chủ</Link>
               <span>/</span>
-              <span className="text-amber-400 font-semibold">Điều khoản sử dụng</span>
+              <span className="text-[#D7181F] font-bold">Điều khoản sử dụng</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
               Điều Khoản Sử Dụng Dịch Vụ
             </h1>
-            <p className="mt-3 text-slate-300 text-sm">
+            <p className="mt-3 text-slate-600 text-sm">
               Quy định quyền và nghĩa vụ hợp tác giữa {siteConfig.companyName} và Quý khách hàng
             </p>
           </div>

@@ -24,19 +24,19 @@ export default function AboutPage() {
 
       <main className="flex-1">
         {/* Hero Banner */}
-        <section className="bg-slate-950 text-white py-14 sm:py-20 border-b border-slate-800">
+        <section className="bg-pastel-hero py-14 sm:py-20 border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-            <div className="flex items-center justify-center gap-2 text-xs text-slate-400 mb-4">
-              <Link href="/" className="hover:text-amber-400">Trang chủ</Link>
+            <div className="flex items-center justify-center gap-2 text-xs text-slate-500 mb-4 font-semibold">
+              <Link href="/" className="hover:text-[#D7181F]">Trang chủ</Link>
               <span>/</span>
-              <span className="text-amber-400 font-semibold">Giới thiệu</span>
+              <span className="text-[#D7181F] font-bold">Giới thiệu</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
-              Giới Thiệu <span className="text-amber-400">Kế Toán Thuế Sóc Sơn</span>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
+              Giới Thiệu <span className="text-[#D7181F]">Kế Toán Thuế Sóc Sơn</span>
             </h1>
 
-            <p className="mt-4 text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+            <p className="mt-4 text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
               Hơn 10 năm đồng hành cùng hàng trăm hộ kinh doanh và doanh nghiệp tại Sóc Sơn, Mê Linh, Đông Anh. Uy tín - Chuyên nghiệp - Bảo mật.
             </p>
           </div>
@@ -47,11 +47,11 @@ export default function AboutPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               <div className="lg:col-span-6 space-y-4">
-                <span className="px-3.5 py-1.5 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase">
+                <span className="px-3.5 py-1.5 rounded-full bg-red-50 text-[#D7181F] text-xs font-bold uppercase border border-red-200">
                   Giá trị cốt lõi
                 </span>
                 <h2 className="text-3xl font-black text-slate-900 leading-tight">
-                  Tận Tâm - Tốc Độ - Minh Bạch - Bảo Mật
+                  Tận Tâm – Tốc Độ – Minh Bạch – Bảo Mật
                 </h2>
                 <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                   Chúng tôi hiểu rõ những rủi ro và khó khăn về sổ sách báo cáo thuế mà các doanh nghiệp nhỏ phải đối mặt. Vì vậy, giải pháp dịch vụ trọn gói của chúng tôi được thiết kế để mang đến sự an tâm tuyệt đối với chi phí hợp lý nhất.
@@ -86,7 +86,7 @@ export default function AboutPage() {
         </section>
 
         {/* Stats Counter Section */}
-        <section className="py-16 bg-slate-900 text-white border-b border-slate-800">
+        <section className="py-16 bg-[#04266F] text-white border-b border-blue-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {siteConfig.stats.map((st) => (

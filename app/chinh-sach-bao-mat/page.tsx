@@ -22,23 +22,23 @@ export default function PrivacyPolicyPage() {
 
       <main className="flex-1">
         {/* Banner Hero */}
-        <section className="bg-slate-950 text-white py-14 sm:py-20 border-b border-slate-800">
+        <section className="bg-pastel-hero py-14 sm:py-20 border-b border-slate-200">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-            <div className="flex items-center justify-center gap-2 text-xs text-slate-400 mb-4">
-              <Link href="/" className="hover:text-amber-400">Trang chủ</Link>
+            <div className="flex items-center justify-center gap-2 text-xs text-slate-500 mb-4 font-semibold">
+              <Link href="/" className="hover:text-[#D7181F]">Trang chủ</Link>
               <span>/</span>
-              <span className="text-amber-400 font-semibold">Chính sách bảo mật</span>
+              <span className="text-[#D7181F] font-bold">Chính sách bảo mật</span>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold mb-3 border border-emerald-500/30">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-[#D7181F] text-xs font-bold mb-3 border border-red-200">
               <ShieldCheck className="w-4 h-4" />
               <span>Tuân thủ Nghị định 13/2023/NĐ-CP</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
               Chính Sách Bảo Mật & Bảo Vệ Dữ Liệu Cá Nhân
             </h1>
-            <p className="mt-3 text-slate-300 text-sm">
+            <p className="mt-3 text-slate-600 text-sm">
               Cập nhật và có hiệu lực áp dụng tại {siteConfig.companyName}
             </p>
           </div>
@@ -47,7 +47,7 @@ export default function PrivacyPolicyPage() {
         {/* Legal Text Body strictly following Decree 13/2023/NĐ-CP */}
         <section className="py-16 bg-white border-b border-slate-200">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-8 text-sm sm:text-base leading-relaxed text-slate-700">
-            <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs sm:text-sm">
+            <div className="p-4 rounded-xl bg-red-50/50 border border-red-200 text-slate-900 text-xs sm:text-sm">
               <strong>Thông báo tuân thủ pháp luật:</strong> Bản Chính sách bảo mật này được xây dựng và áp dụng nghiêm ngặt theo quy định tại <strong>Nghị định số 13/2023/NĐ-CP</strong> của Chính phủ ban hành ngày 17/04/2023 về Bảo vệ dữ liệu cá nhân tại Việt Nam.
             </div>
 
@@ -120,7 +120,7 @@ export default function PrivacyPolicyPage() {
               <p>
                 Nếu Quý khách muốn thực hiện quyền điều chỉnh, truy cập hoặc xóa dữ liệu cá nhân, xin vui lòng liên hệ với Bộ phận Bảo vệ Dữ liệu của chúng tôi qua:
               </p>
-              <div className="p-4 rounded-xl bg-slate-100 border border-slate-200 space-y-1 text-xs sm:text-sm font-semibold">
+              <div className="p-4 rounded-xl bg-slate-100 border border-slate-200 space-y-1 text-xs sm:text-sm font-semibold text-slate-900">
                 <p>• <strong>CÔNG TY TNHH TƯ VẤN KẾ TOÁN & THUẾ SÓC SƠN</strong></p>
                 <p>• <strong>Địa chỉ:</strong> {siteConfig.contact.address}</p>
                 <p>• <strong>Hotline/Zalo:</strong> {siteConfig.contact.phoneDisplay}</p>
