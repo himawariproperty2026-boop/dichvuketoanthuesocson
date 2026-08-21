@@ -191,17 +191,6 @@ export const Header: React.FC = () => {
             </Link>
 
             <Link
-              href="/faq"
-              className={`px-3 py-2 rounded-lg text-sm font-bold transition-colors ${
-                pathname === "/faq"
-                  ? "text-[#D7181F] bg-red-50"
-                  : "text-slate-800 hover:text-[#D7181F] hover:bg-slate-50"
-              }`}
-            >
-              FAQ
-            </Link>
-
-            <Link
               href="/lien-he"
               className={`px-3 py-2 rounded-lg text-sm font-bold transition-colors ${
                 pathname === "/lien-he"
@@ -295,13 +284,6 @@ export const Header: React.FC = () => {
             className="block py-2 text-sm font-bold text-slate-800 hover:text-[#D7181F]"
           >
             Blog / Tin tức
-          </Link>
-          <Link
-            href="/faq"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-sm font-bold text-slate-800 hover:text-[#D7181F]"
-          >
-            FAQ
           </Link>
           <Link
             href="/lien-he"

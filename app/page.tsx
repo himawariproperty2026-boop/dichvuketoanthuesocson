@@ -374,28 +374,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* BLOCK 11: FAQ Accordion Section */}
-        <section className="py-16 md:py-24 bg-white border-b border-slate-200">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6">
-            <SectionHeading
-              subtitle="Giải đáp thắc mắc"
-              title="Các Câu Hỏi Thường Gặp Về Thuế & Kế Toán"
-            />
-
-            <div className="mt-10 space-y-4">
-              {siteConfig.faqs.map((faq, idx) => (
-                <FaqAccordionItem
-                  key={idx}
-                  question={faq.question}
-                  answer={faq.answer}
-                  defaultOpen={idx === 0}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* BLOCK 12: Latest Blog Articles Grid Section */}
+        {/* BLOCK 11: Latest Blog Articles Grid Section */}
         <section className="py-16 md:py-24 bg-slate-50 border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">

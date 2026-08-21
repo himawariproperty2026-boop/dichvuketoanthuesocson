@@ -12,7 +12,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/dich-vu",
     "/bang-gia",
     "/blog",
-    "/faq",
     "/lien-he",
     "/chinh-sach-bao-mat",
     "/dieu-khoan-su-dung",

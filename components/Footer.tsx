@@ -107,12 +107,6 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="hover:text-red-300 transition-colors flex items-center gap-1.5">
-                  <ChevronRight className="w-3.5 h-3.5 text-red-400" />
-                  <span>Câu hỏi thường gặp (FAQ)</span>
-                </Link>
-              </li>
-              <li>
                 <Link href="/chinh-sach-bao-mat" className="hover:text-red-300 transition-colors flex items-center gap-1.5">
                   <ChevronRight className="w-3.5 h-3.5 text-red-400" />
                   <span>Chính sách bảo mật (NĐ 13/2023)</span>

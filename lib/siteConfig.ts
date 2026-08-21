@@ -78,7 +78,6 @@ export const siteConfig = {
     },
     { name: "Bảng giá", href: "/bang-gia" },
     { name: "Blog / Tin tức", href: "/blog" },
-    { name: "FAQ", href: "/faq" },
     { name: "Liên hệ", href: "/lien-he" },
   ],
 
