@@ -87,7 +87,7 @@ export const siteConfig = {
       slug: "ke-toan-thue-tron-goi",
       title: "Kế toán Thuế Trọn gói",
       shortDesc: "Thay thế hoàn toàn bộ máy kế toán nội bộ với chi phí chỉ bằng 1/5. Đảm bảo đúng luật, báo cáo chính xác, nộp bù đắp nghĩa vụ thuế đúng hạn.",
-      priceStarting: "500.000 đ/tháng",
+      priceStarting: "1.500.000 đ/tháng",
       popular: true,
       iconName: "Calculator",
       highlights: [
@@ -101,7 +101,7 @@ export const siteConfig = {
       slug: "thanh-lap-doanh-nghiep",
       title: "Thành lập Doanh nghiệp Sóc Sơn",
       shortDesc: "Tư vấn chọn mô hình công ty, lập hồ sơ trọn gói, giao GPKD & con dấu tận nơi tại Sóc Sơn trong 3-5 ngày làm việc.",
-      priceStarting: "1.200.000 đ",
+      priceStarting: "1.500.000 đ",
       popular: false,
       iconName: "Building2",
       highlights: [
@@ -157,7 +157,7 @@ export const siteConfig = {
       slug: "tu-van-thue-ke-toan",
       title: "Tư vấn Thuế & Chuyên sâu",
       shortDesc: "Tư vấn cấu trúc chi phí doanh nghiệp, lập kế hoạch thuế dài hạn, xử lý hóa đơn rủi ro, chuyển đổi hộ kinh doanh lên doanh nghiệp.",
-      priceStarting: "1.000.000 đ/buổi",
+      priceStarting: "800.000 đ",
       popular: false,
       iconName: "ShieldAlert",
       highlights: [
@@ -226,7 +226,7 @@ export const siteConfig = {
   // IMPORTANT: Add-on Services configuration
   // TODO: Giá tạm - cần chủ doanh nghiệp xác nhận giá thật trước khi launch, không dùng khi lên production
   addOnServices: [
-    { name: "Thành lập công ty trọn gói", price: "Từ 1.200.000 đ", note: "Cấp GPKD + Con dấu tận nơi Sóc Sơn" },
+    { name: "Thành lập công ty trọn gói", price: "Từ 1.500.000 đ", note: "Cấp GPKD + Con dấu tận nơi Sóc Sơn" },
     { name: "Thay đổi giấy phép đăng ký kinh doanh", price: "Từ 800.000 đ", note: "Đổi địa chỉ, tăng vốn, ngành nghề" },
     { name: "Chữ ký số (Token) 3 năm", price: "Từ 1.500.000 đ", note: "Hỗ trợ đăng ký qua đối tác CA uy tín (VNPT, Viettel, BKAV...)" },
     { name: "Hóa đơn điện tử khởi tạo (500 số)", price: "Từ 600.000 đ", note: "Hỗ trợ đăng ký qua đối tác phát hành uy tín" },
