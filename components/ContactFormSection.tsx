@@ -54,14 +54,14 @@ export const ContactFormSection: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
       {/* Sidebar Info */}
-      <div className="lg:col-span-5 bg-[#04266F] text-white rounded-3xl p-7 sm:p-9 flex flex-col justify-between space-y-6 shadow-xl">
+      <div className="lg:col-span-5 bg-[#04266F] text-white rounded-3xl p-6 sm:p-9 flex flex-col justify-between space-y-6 shadow-xl">
         <div className="space-y-4">
           <span className="px-3 py-1 rounded-full bg-red-500/20 text-red-300 text-xs font-bold uppercase border border-red-500/30">
             Hỗ trợ tức thì
           </span>
-          <h3 className="text-2xl font-black tracking-tight leading-tight">
+          <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-tight">
             Liên Hệ Với Kế Toán Thuế Sóc Sơn
           </h3>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -71,14 +71,14 @@ export const ContactFormSection: React.FC = () => {
 
         <div className="space-y-4 text-xs sm:text-sm text-slate-200 border-t border-blue-800/80 pt-6">
           <div className="flex items-start gap-3">
-            <div className="p-2 rounded-lg bg-red-600/30 text-red-400 mt-0.5">
+            <div className="p-2 rounded-lg bg-red-600/30 text-red-400 mt-0.5 flex-shrink-0">
               <Phone className="w-4 h-4" />
             </div>
             <div>
               <div className="text-[11px] text-slate-400">Hotline 24/7</div>
               <a
                 href={`tel:${siteConfig.contact.phone.replace(/\s+/g, "")}`}
-                className="font-extrabold text-base text-white hover:text-red-400"
+                className="font-extrabold text-sm sm:text-base text-white hover:text-red-400"
               >
                 {siteConfig.contact.phoneDisplay}
               </a>
@@ -86,7 +86,7 @@ export const ContactFormSection: React.FC = () => {
           </div>
 
           <div className="flex items-start gap-3">
-            <div className="p-2 rounded-lg bg-red-600/30 text-red-400 mt-0.5">
+            <div className="p-2 rounded-lg bg-red-600/30 text-red-400 mt-0.5 flex-shrink-0">
               <MapPin className="w-4 h-4" />
             </div>
             <div>
@@ -98,7 +98,7 @@ export const ContactFormSection: React.FC = () => {
           </div>
 
           <div className="flex items-start gap-3">
-            <div className="p-2 rounded-lg bg-red-600/30 text-red-400 mt-0.5">
+            <div className="p-2 rounded-lg bg-red-600/30 text-red-400 mt-0.5 flex-shrink-0">
               <Mail className="w-4 h-4" />
             </div>
             <div>
@@ -111,13 +111,13 @@ export const ContactFormSection: React.FC = () => {
         </div>
 
         <div className="pt-2 text-xs text-slate-300 flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-red-400" />
+          <ShieldCheck className="w-4 h-4 text-red-400 flex-shrink-0" />
           <span>Bảo mật dữ liệu chuẩn Nghị định 13/2023</span>
         </div>
       </div>
 
       {/* Main Form */}
-      <div className="lg:col-span-7 bg-white border border-slate-200 rounded-3xl p-7 sm:p-9 shadow-soft">
+      <div className="lg:col-span-7 bg-white border border-slate-200 rounded-3xl p-6 sm:p-9 shadow-soft">
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Honeypot Spam Trap */}
           <input
@@ -132,7 +132,7 @@ export const ContactFormSection: React.FC = () => {
 
           {successMsg && (
             <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-semibold flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
               <span>{successMsg}</span>
             </div>
           )}
@@ -154,7 +154,7 @@ export const ContactFormSection: React.FC = () => {
                 placeholder="Ví dụ: Nguyễn Văn An"
                 value={formData.fullName}
                 onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-[#D7181F]"
+                className="w-full px-4 py-3 sm:py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-sm focus:outline-none focus:border-[#D7181F]"
               />
             </div>
 
@@ -168,7 +168,7 @@ export const ContactFormSection: React.FC = () => {
                 placeholder="Ví dụ: 0987654321"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-[#D7181F]"
+                className="w-full px-4 py-3 sm:py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-sm focus:outline-none focus:border-[#D7181F]"
               />
             </div>
           </div>
@@ -183,7 +183,7 @@ export const ContactFormSection: React.FC = () => {
                 placeholder="email@doanhnghiep.com"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-[#D7181F]"
+                className="w-full px-4 py-3 sm:py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-sm focus:outline-none focus:border-[#D7181F]"
               />
             </div>
 
@@ -194,7 +194,7 @@ export const ContactFormSection: React.FC = () => {
               <select
                 value={formData.service}
                 onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-[#D7181F]"
+                className="w-full px-4 py-3 sm:py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-sm focus:outline-none focus:border-[#D7181F]"
               >
                 <option value="Kế toán thuế trọn gói">Kế toán thuế trọn gói</option>
                 <option value="Thành lập doanh nghiệp">Thành lập doanh nghiệp</option>
@@ -215,14 +215,14 @@ export const ContactFormSection: React.FC = () => {
               placeholder="Mô tả sơ lược quy mô hóa đơn hoặc thắc mắc của bạn..."
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-[#D7181F]"
+              className="w-full px-4 py-3 sm:py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-base sm:text-sm focus:outline-none focus:border-[#D7181F]"
             ></textarea>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 rounded-xl bg-[#D7181F] hover:bg-[#B81117] text-white font-black text-sm tracking-wide shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+            className="w-full py-4 sm:py-3.5 rounded-xl bg-[#D7181F] hover:bg-[#B81117] text-white font-black text-xs sm:text-sm tracking-wide shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 active:scale-98"
           >
             <Send className="w-4 h-4" />
             <span>{loading ? "Đang gửi thông tin..." : "GỬI YÊU CẦU TƯ VẤN MIỄN PHÍ"}</span>

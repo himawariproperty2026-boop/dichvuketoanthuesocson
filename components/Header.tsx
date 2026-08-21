@@ -39,37 +39,37 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
-      {/* TopBar Header - Light Theme */}
-      <div className="bg-slate-100 border-b border-slate-200 text-xs text-slate-700 py-2">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-5">
+    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-xs">
+      {/* TopBar Header - Compact & Responsive */}
+      <div className="bg-slate-100 border-b border-slate-200 text-xs text-slate-700 py-1.5 sm:py-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-3 sm:gap-5 overflow-x-auto no-scrollbar whitespace-nowrap">
             <a
               href={`tel:${siteConfig.contact.phone.replace(/\s+/g, "")}`}
-              className="flex items-center gap-1.5 font-bold text-[#D7181F] hover:underline"
+              className="flex items-center gap-1.5 font-bold text-[#D7181F] hover:underline text-xs"
             >
-              <Phone className="w-3.5 h-3.5" />
+              <Phone className="w-3.5 h-3.5 flex-shrink-0" />
               <span>Hotline 24/7: {siteConfig.contact.phoneDisplay}</span>
             </a>
             <div className="hidden md:flex items-center gap-1.5 text-slate-600">
-              <MapPin className="w-3.5 h-3.5 text-[#04266F]" />
+              <MapPin className="w-3.5 h-3.5 text-[#04266F] flex-shrink-0" />
               <span>Sóc Sơn: {siteConfig.contact.address}</span>
             </div>
             <div className="hidden lg:flex items-center gap-1.5 text-slate-600">
-              <Clock className="w-3.5 h-3.5 text-[#04266F]" />
+              <Clock className="w-3.5 h-3.5 text-[#04266F] flex-shrink-0" />
               <span>Thứ 2 - Thứ 7: 08:00 - 17:30</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 text-xs font-semibold">
-            <span className="hidden sm:inline text-slate-500">
+          <div className="flex items-center gap-3 text-xs font-semibold flex-shrink-0">
+            <span className="hidden sm:inline text-slate-500 text-[11px]">
               MST: {siteConfig.contact.taxCode}
             </span>
             <a
               href={siteConfig.social.zaloPage}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-2.5 py-0.5 rounded-full bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition-colors"
+              className="px-2.5 py-1 rounded-full bg-blue-600 text-white font-bold text-[10px] sm:text-[11px] hover:bg-blue-700 transition-colors shadow-xs"
             >
               Zalo Official
             </a>
@@ -79,17 +79,17 @@ export const Header: React.FC = () => {
 
       {/* Main Navbar Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 rounded-xl bg-[#D7181F] text-white flex items-center justify-center font-black text-xl shadow-md group-hover:scale-105 transition-transform">
-              <ShieldCheck className="w-7 h-7" />
+          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-[#D7181F] text-white flex items-center justify-center font-black text-lg sm:text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
+              <ShieldCheck className="w-5 h-5 sm:w-7 sm:h-7" />
             </div>
             <div className="flex flex-col">
-              <span className="font-black text-lg sm:text-xl tracking-tight text-[#04266F] leading-none">
+              <span className="font-black text-base sm:text-xl tracking-tight text-[#04266F] leading-tight">
                 KẾ TOÁN THUẾ <span className="text-[#D7181F]">SÓC SƠN</span>
               </span>
-              <span className="text-[10px] sm:text-[11px] font-semibold text-slate-500 tracking-wider uppercase mt-1">
+              <span className="text-[9px] sm:text-[11px] font-semibold text-slate-500 tracking-wider uppercase mt-0.5">
                 Uy Tín - Chuyên Nghiệp - Trọn Gói
               </span>
             </div>
@@ -119,7 +119,7 @@ export const Header: React.FC = () => {
               Giới thiệu
             </Link>
 
-            {/* Dropdown Mega Menu for Services */}
+            {/* Mega Dropdown Menu for Services */}
             <div
               className="relative"
               onMouseEnter={() => setServicesDropdownOpen(true)}
@@ -224,82 +224,88 @@ export const Header: React.FC = () => {
             </Link>
           </div>
 
-          {/* Mobile Hamburger Toggle Button */}
+          {/* Mobile Hamburger Toggle Button (44px Minimum Touch Target) */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle Navigation Menu"
-            className="lg:hidden p-2.5 rounded-xl bg-slate-100 text-slate-800 hover:bg-slate-200"
+            aria-label="Mở menu điều hướng mobile"
+            className="lg:hidden w-11 h-11 rounded-xl bg-slate-100 text-slate-800 hover:bg-slate-200 flex items-center justify-center cursor-pointer transition-colors active:scale-95"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer Menu - Smooth Touch Spacing */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-3">
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-2 shadow-2xl animate-fade-in">
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-sm font-bold text-slate-800 hover:text-[#D7181F]"
+            className="block py-3 px-3 rounded-xl font-bold text-sm text-slate-800 hover:bg-slate-50 hover:text-[#D7181F] border-b border-slate-100"
           >
             Trang chủ
           </Link>
           <Link
             href="/gioi-thieu"
             onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-sm font-bold text-slate-800 hover:text-[#D7181F]"
+            className="block py-3 px-3 rounded-xl font-bold text-sm text-slate-800 hover:bg-slate-50 hover:text-[#D7181F] border-b border-slate-100"
           >
             Giới thiệu
           </Link>
-          <Link
-            href="/dich-vu"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-sm font-bold text-[#D7181F]"
-          >
-            Dịch vụ (6 Dịch vụ trọn gói)
-          </Link>
-          <div className="pl-4 space-y-2 border-l-2 border-red-200">
-            {siteConfig.services.map((svc) => (
-              <Link
-                key={svc.slug}
-                href={`/dich-vu/${svc.slug}`}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-xs font-semibold text-slate-600 hover:text-[#D7181F]"
-              >
-                • {svc.title}
-              </Link>
-            ))}
+
+          {/* Services Accordion on Mobile */}
+          <div className="py-2 px-3 border-b border-slate-100 space-y-2">
+            <Link
+              href="/dich-vu"
+              onClick={() => setMobileMenuOpen(false)}
+              className="font-bold text-sm text-[#D7181F] block"
+            >
+              Dịch vụ kế toán (6 Gói trọn gói)
+            </Link>
+            <div className="grid grid-cols-1 gap-1.5 pl-2">
+              {siteConfig.services.map((svc) => (
+                <Link
+                  key={svc.slug}
+                  href={`/dich-vu/${svc.slug}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="py-1.5 px-2 rounded-lg text-xs font-semibold text-slate-700 hover:text-[#D7181F] hover:bg-red-50/50 flex items-center gap-2"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D7181F]"></span>
+                  <span>{svc.title}</span>
+                </Link>
+              ))}
+            </div>
           </div>
+
           <Link
             href="/bang-gia"
             onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-sm font-bold text-slate-800 hover:text-[#D7181F]"
+            className="block py-3 px-3 rounded-xl font-bold text-sm text-slate-800 hover:bg-slate-50 hover:text-[#D7181F] border-b border-slate-100"
           >
-            Bảng giá
+            Bảng giá 3 gói
           </Link>
           <Link
             href="/blog"
             onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-sm font-bold text-slate-800 hover:text-[#D7181F]"
+            className="block py-3 px-3 rounded-xl font-bold text-sm text-slate-800 hover:bg-slate-50 hover:text-[#D7181F] border-b border-slate-100"
           >
             Blog / Tin tức
           </Link>
           <Link
             href="/lien-he"
             onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-sm font-bold text-slate-800 hover:text-[#D7181F]"
+            className="block py-3 px-3 rounded-xl font-bold text-sm text-slate-800 hover:bg-slate-50 hover:text-[#D7181F]"
           >
             Liên hệ
           </Link>
 
-          <div className="pt-4">
+          <div className="pt-3">
             <Link
               href="/lien-he"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full py-3 rounded-xl bg-[#D7181F] text-white font-bold text-center block text-sm shadow-md"
+              className="w-full py-3.5 rounded-xl bg-[#D7181F] text-white font-extrabold text-center block text-sm shadow-md active:scale-98 transition-transform"
             >
-              Tư vấn giải pháp ngay
+              Tư Vấn Giải Pháp Trực Tiếp
             </Link>
           </div>
         </div>
