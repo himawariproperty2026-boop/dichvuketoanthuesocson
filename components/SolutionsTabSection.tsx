@@ -12,7 +12,7 @@ export const SolutionsTabSection: React.FC = () => {
     {
       id: "ho-kinh-doanh",
       label: "Hộ Kinh Doanh Cá Thể",
-      icon: <Store className="w-4 h-4 flex-shrink-0" />,
+      icon: <Store className="w-4 h-4" />,
       title: "Giải Pháp Kế Toán Thuế Cho Hộ Kinh Doanh Sóc Sơn",
       desc: "Phù hợp cho các hộ kinh doanh buôn bán, nhà hàng, cửa hàng dịch vụ tại Sóc Sơn chuẩn hóa sổ sách hóa đơn điện tử máy tính tiền.",
       benefits: [
@@ -27,7 +27,7 @@ export const SolutionsTabSection: React.FC = () => {
     {
       id: "startup",
       label: "Công Ty Mới Thành Lập",
-      icon: <Rocket className="w-4 h-4 flex-shrink-0" />,
+      icon: <Rocket className="w-4 h-4" />,
       title: "Dịch Vụ Kế Toán Thuế Ban Đầu Cho Startup",
       desc: "Giải pháp trọn gói từ thành lập công ty, mở tài khoản ngân hàng, chữ ký số đến khai thuế ban đầu không lo bị phạt nộp chậm.",
       benefits: [
@@ -42,7 +42,7 @@ export const SolutionsTabSection: React.FC = () => {
     {
       id: "doanh-nghiep-nho",
       label: "Doanh Nghiệp Nhỏ & Vừa (SMEs)",
-      icon: <Building2 className="w-4 h-4 flex-shrink-0" />,
+      icon: <Building2 className="w-4 h-4" />,
       title: "Kế Toán Thuế Trọn Gói Cho Công Ty SMEs",
       desc: "Thay thế hoàn toàn bộ máy kế toán nội bộ. Chịu trách nhiệm 100% giải trình số liệu với cơ quan thuế Sóc Sơn.",
       benefits: [
@@ -57,7 +57,7 @@ export const SolutionsTabSection: React.FC = () => {
     {
       id: "san-xuat-kcn",
       label: "Công Ty Sản Xuất / KCN",
-      icon: <Factory className="w-4 h-4 flex-shrink-0" />,
+      icon: <Factory className="w-4 h-4" />,
       title: "Dịch Vụ Kế Toán Chuyên Sâu Cho Xưởng & KCN Nội Bài",
       desc: "Dành riêng cho doanh nghiệp sản xuất, gia công, kho bãi gần KCN Nội Bài, KCN Quang Minh cần tính giá thành chi tiết.",
       benefits: [
@@ -74,16 +74,16 @@ export const SolutionsTabSection: React.FC = () => {
   const current = tabs[activeTab];
 
   return (
-    <div className="space-y-6 sm:space-y-8">
-      {/* Tab Selector Buttons - Horizontally Scrollable on Mobile */}
-      <div className="flex items-center sm:justify-center gap-2 overflow-x-auto no-scrollbar pb-2 px-1 snap-x scroll-smooth">
+    <div className="space-y-8">
+      {/* Tab Selector Buttons */}
+      <div className="flex flex-wrap items-center justify-center gap-3">
         {tabs.map((tab, idx) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(idx)}
-            className={`px-4 py-3 sm:px-5 rounded-xl sm:rounded-2xl font-extrabold text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap snap-start flex-shrink-0 transition-all cursor-pointer ${
+            className={`px-5 py-3 rounded-2xl font-extrabold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer ${
               activeTab === idx
-                ? "bg-[#D7181F] text-white shadow-md scale-100 sm:scale-105"
+                ? "bg-[#D7181F] text-white shadow-lg scale-105"
                 : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
             }`}
           >
@@ -94,17 +94,17 @@ export const SolutionsTabSection: React.FC = () => {
       </div>
 
       {/* Active Tab Panel Content */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-5 sm:p-8 lg:p-10 shadow-soft">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
+      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-soft">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-8 space-y-4">
-            <h3 className="text-lg sm:text-2xl font-black text-slate-900 leading-snug">
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900 leading-snug">
               {current.title}
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               {current.desc}
             </p>
 
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-2">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3">
               {current.benefits.map((b, bIdx) => (
                 <li key={bIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-800 font-semibold">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
@@ -114,7 +114,7 @@ export const SolutionsTabSection: React.FC = () => {
             </ul>
           </div>
 
-          <div className="lg:col-span-4 bg-slate-50 rounded-2xl border border-slate-200 p-5 text-center space-y-3 sm:space-y-4">
+          <div className="lg:col-span-4 bg-slate-50 rounded-2xl border border-slate-200 p-6 text-center space-y-4">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
               Chi Phí Trọn Gói
             </span>
@@ -127,7 +127,7 @@ export const SolutionsTabSection: React.FC = () => {
 
             <Link
               href={current.ctaUrl}
-              className="w-full py-3 rounded-xl bg-[#D7181F] hover:bg-[#B81117] text-white font-extrabold text-xs block text-center shadow-md transition-all uppercase tracking-wide"
+              className="w-full py-3 rounded-xl bg-[#D7181F] hover:bg-[#B81117] text-white font-extrabold text-xs block text-center shadow-md transition-all"
             >
               Đăng ký tư vấn mô hình này
             </Link>
