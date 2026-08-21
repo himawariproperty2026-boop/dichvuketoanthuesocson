@@ -9,27 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        navy: {
-          900: "#081E36",
-          800: "#0F3A66", // Primary Navy
-          700: "#174E85",
-          600: "#1E62A4",
-          50: "#F0F5FA",
-        },
-        gold: {
-          600: "#B89025",
-          500: "#D4AF37", // Primary Gold Accent
-          400: "#E5C158",
-          100: "#FDF7E7",
-          50: "#FFFDF7",
-        },
         brand: {
-          blue: "#0F3A66",
-          gold: "#D4AF37",
+          red: "#D7181F",
+          redHover: "#B81117",
+          navy: "#04266F",
+          navyDark: "#021233",
+          navyLight: "#124DB3",
+          pastelPink: "#FAD7D8",
+          pastelBlue: "#EBF2FB",
+          textDark: "#131313",
         },
-      },
-      fontFamily: {
-        sans: ["var(--font-sans)", "Plus Jakarta Sans", "sans-serif"],
       },
     },
   },

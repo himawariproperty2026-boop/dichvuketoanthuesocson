@@ -1,90 +1,75 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Phone,
-  Mail,
   MapPin,
   Clock,
+  Search,
   Menu,
   X,
   ChevronDown,
-  Calculator,
+  FileText,
   Building2,
-  FileCheck2,
-  FileEdit,
-  Coins,
-  ShieldAlert,
-  Search,
+  Calculator,
+  RefreshCw,
+  Receipt,
+  HelpCircle,
   ArrowRight,
+  ShieldCheck,
 } from "lucide-react";
+
 import { siteConfig } from "@/lib/siteConfig";
 
-const iconMap: Record<string, React.ElementType> = {
-  Calculator,
-  Building2,
-  FileCheck2,
-  FileEdit,
-  Coins,
-  ShieldAlert,
-};
-
 export const Header: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
+  const iconMap: Record<string, React.ReactNode> = {
+    "ke-toan-thue-tron-goi": <FileText className="w-5 h-5 text-[#D7181F]" />,
+    "thanh-lap-doanh-nghiep": <Building2 className="w-5 h-5 text-[#D7181F]" />,
+    "quyet-toan-thue": <Calculator className="w-5 h-5 text-[#D7181F]" />,
+    "thay-doi-dang-ky-kinh-doanh": <RefreshCw className="w-5 h-5 text-[#D7181F]" />,
+    "hoan-thue-gtgt": <Receipt className="w-5 h-5 text-[#D7181F]" />,
+    "tu-van-thue-ke-toan": <HelpCircle className="w-5 h-5 text-[#D7181F]" />,
+  };
 
   return (
-    <header className="w-full sticky top-0 z-50 transition-all duration-300">
-      {/* Top Header Contact Bar */}
-      <div className="bg-slate-900 text-slate-300 text-xs py-2 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-2">
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+      {/* TopBar Header - Light Theme */}
+      <div className="bg-slate-100 border-b border-slate-200 text-xs text-slate-700 py-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-5">
             <a
               href={`tel:${siteConfig.contact.phone.replace(/\s+/g, "")}`}
-              className="flex items-center gap-1.5 hover:text-amber-400 transition-colors font-medium text-amber-300"
+              className="flex items-center gap-1.5 font-bold text-[#D7181F] hover:underline"
             >
-              <Phone className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+              <Phone className="w-3.5 h-3.5" />
               <span>Hotline 24/7: {siteConfig.contact.phoneDisplay}</span>
             </a>
-            <div className="hidden md:flex items-center gap-1.5 text-slate-400">
-              <MapPin className="w-3.5 h-3.5 text-amber-500" />
-              <span className="truncate max-w-xs xl:max-w-none">
-                Sóc Sơn: {siteConfig.contact.address.split(",")[0]}
-              </span>
+            <div className="hidden md:flex items-center gap-1.5 text-slate-600">
+              <MapPin className="w-3.5 h-3.5 text-[#04266F]" />
+              <span>Sóc Sơn: {siteConfig.contact.address}</span>
             </div>
-            <div className="hidden lg:flex items-center gap-1.5 text-slate-400">
-              <Clock className="w-3.5 h-3.5 text-amber-500" />
-              <span>{siteConfig.contact.workingHours}</span>
+            <div className="hidden lg:flex items-center gap-1.5 text-slate-600">
+              <Clock className="w-3.5 h-3.5 text-[#04266F]" />
+              <span>Thứ 2 - Thứ 7: 08:00 - 17:30</span>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="hidden sm:inline-block text-slate-400">
+
+          <div className="flex items-center gap-4 text-xs font-semibold">
+            <span className="hidden sm:inline text-slate-500">
               MST: {siteConfig.contact.taxCode}
             </span>
             <a
               href={siteConfig.social.zaloPage}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 px-2.5 py-0.5 rounded text-[11px] font-semibold transition-colors border border-amber-500/30"
+              className="px-2.5 py-0.5 rounded-full bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition-colors"
             >
               Zalo Official
             </a>
@@ -92,280 +77,248 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Navigation Bar */}
-      <div
-        className={`w-full transition-all duration-300 ${
-          isScrolled
-            ? "bg-slate-900/95 backdrop-blur-md shadow-lg border-b border-amber-500/20 py-2.5"
-            : "bg-slate-900 border-b border-slate-800 py-3.5"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-          {/* Logo */}
+      {/* Main Navbar Header */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-20">
+          {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
-              <Calculator className="w-6 h-6 stroke-[2.5]" />
+            <div className="w-11 h-11 rounded-xl bg-[#D7181F] text-white flex items-center justify-center font-black text-xl shadow-md group-hover:scale-105 transition-transform">
+              <ShieldCheck className="w-7 h-7" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg sm:text-xl font-black tracking-tight text-white group-hover:text-amber-400 transition-colors">
-                KẾ TOÁN THUẾ <span className="text-amber-400">SÓC SƠN</span>
+              <span className="font-black text-lg sm:text-xl tracking-tight text-[#04266F] leading-none">
+                KẾ TOÁN THUẾ <span className="text-[#D7181F]">SÓC SƠN</span>
               </span>
-              <span className="text-[10px] sm:text-[11px] text-slate-400 font-medium tracking-wider uppercase">
+              <span className="text-[10px] sm:text-[11px] font-semibold text-slate-500 tracking-wider uppercase mt-1">
                 Uy Tín - Chuyên Nghiệp - Trọn Gói
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-            {siteConfig.navigation.map((item) => {
-              const isActive = pathname === item.href;
-              const hasChildren = Boolean(item.children);
-
-              if (hasChildren) {
-                return (
-                  <div key={item.name} className="relative group py-2">
-                    <Link
-                      href={item.href}
-                      className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                        isActive || pathname.startsWith("/dich-vu")
-                          ? "text-amber-400 bg-slate-800/80"
-                          : "text-slate-200 hover:text-amber-400 hover:bg-slate-800/50"
-                      }`}
-                    >
-                      <span>{item.name}</span>
-                      <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180 text-amber-400" />
-                    </Link>
-
-                    {/* Mega Dropdown Menu */}
-                    <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-80 z-50">
-                      <div className="bg-slate-900 border border-slate-700/80 rounded-xl shadow-2xl p-3 grid gap-1 backdrop-blur-xl">
-                        <div className="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-amber-400 border-b border-slate-800 mb-1">
-                          Danh mục dịch vụ
-                        </div>
-                        {item.children?.map((sub) => {
-                          const IconComponent =
-                            sub.name.includes("Kế toán")
-                              ? Calculator
-                              : sub.name.includes("Thành lập")
-                              ? Building2
-                              : sub.name.includes("Quyết toán")
-                              ? FileCheck2
-                              : sub.name.includes("Thay đổi")
-                              ? FileEdit
-                              : sub.name.includes("Hoàn thuế")
-                              ? Coins
-                              : ShieldAlert;
-                          return (
-                            <Link
-                              key={sub.href}
-                              href={sub.href}
-                              className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-slate-800 transition-colors group/sub"
-                            >
-                              <div className="p-2 rounded-md bg-slate-800 text-amber-400 group-hover/sub:bg-amber-500 group-hover/sub:text-slate-950 transition-colors mt-0.5">
-                                <IconComponent className="w-4 h-4" />
-                              </div>
-                              <div>
-                                <div className="text-sm font-bold text-slate-100 group-hover/sub:text-amber-400 transition-colors">
-                                  {sub.name}
-                                </div>
-                                <div className="text-xs text-slate-400 line-clamp-1 mt-0.5">
-                                  {sub.desc}
-                                </div>
-                              </div>
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                    isActive
-                      ? "text-amber-400 bg-slate-800/80"
-                      : "text-slate-200 hover:text-amber-400 hover:bg-slate-800/50"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Desktop Right CTA Actions */}
-          <div className="hidden lg:flex items-center gap-3">
-            {/* Search Trigger */}
-            <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              className="p-2 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-slate-800 transition-colors"
-              title="Tìm kiếm"
+          <nav className="hidden lg:flex items-center gap-1">
+            <Link
+              href="/"
+              className={`px-3 py-2 rounded-lg text-sm font-bold transition-colors ${
+                pathname === "/"
+                  ? "text-[#D7181F] bg-red-50"
+                  : "text-slate-800 hover:text-[#D7181F] hover:bg-slate-50"
+              }`}
             >
-              <Search className="w-5 h-5" />
-            </button>
+              Trang chủ
+            </Link>
 
-            {/* Primary CTA Button */}
+            <Link
+              href="/gioi-thieu"
+              className={`px-3 py-2 rounded-lg text-sm font-bold transition-colors ${
+                pathname === "/gioi-thieu"
+                  ? "text-[#D7181F] bg-red-50"
+                  : "text-slate-800 hover:text-[#D7181F] hover:bg-slate-50"
+              }`}
+            >
+              Giới thiệu
+            </Link>
+
+            {/* Dropdown Mega Menu for Services */}
+            <div
+              className="relative"
+              onMouseEnter={() => setServicesDropdownOpen(true)}
+              onMouseLeave={() => setServicesDropdownOpen(false)}
+            >
+              <Link
+                href="/dich-vu"
+                className={`px-3 py-2 rounded-lg text-sm font-bold flex items-center gap-1 transition-colors ${
+                  pathname.startsWith("/dich-vu")
+                    ? "text-[#D7181F] bg-red-50"
+                    : "text-slate-800 hover:text-[#D7181F] hover:bg-slate-50"
+                }`}
+              >
+                <span>Dịch vụ</span>
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-200 ${
+                    servicesDropdownOpen ? "rotate-180 text-[#D7181F]" : ""
+                  }`}
+                />
+              </Link>
+
+              {servicesDropdownOpen && (
+                <div className="absolute top-full left-0 w-80 pt-2 z-50">
+                  <div className="bg-white rounded-2xl border border-slate-200 shadow-xl p-2 space-y-1">
+                    {siteConfig.services.map((svc) => (
+                      <Link
+                        key={svc.slug}
+                        href={`/dich-vu/${svc.slug}`}
+                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors group"
+                      >
+                        <div className="p-2 rounded-lg bg-red-50 text-[#D7181F] group-hover:bg-[#D7181F] group-hover:text-white transition-colors">
+                          {iconMap[svc.slug] || <FileText className="w-5 h-5" />}
+                        </div>
+                        <div>
+                          <div className="font-bold text-slate-900 text-xs sm:text-sm group-hover:text-[#D7181F]">
+                            {svc.title}
+                          </div>
+                          <div className="text-[11px] text-slate-500 line-clamp-1 mt-0.5">
+                            {svc.shortDesc}
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <Link
+              href="/bang-gia"
+              className={`px-3 py-2 rounded-lg text-sm font-bold transition-colors ${
+                pathname === "/bang-gia"
+                  ? "text-[#D7181F] bg-red-50"
+                  : "text-slate-800 hover:text-[#D7181F] hover:bg-slate-50"
+              }`}
+            >
+              Bảng giá
+            </Link>
+
+            <Link
+              href="/blog"
+              className={`px-3 py-2 rounded-lg text-sm font-bold transition-colors ${
+                pathname.startsWith("/blog")
+                  ? "text-[#D7181F] bg-red-50"
+                  : "text-slate-800 hover:text-[#D7181F] hover:bg-slate-50"
+              }`}
+            >
+              Blog / Tin tức
+            </Link>
+
+            <Link
+              href="/faq"
+              className={`px-3 py-2 rounded-lg text-sm font-bold transition-colors ${
+                pathname === "/faq"
+                  ? "text-[#D7181F] bg-red-50"
+                  : "text-slate-800 hover:text-[#D7181F] hover:bg-slate-50"
+              }`}
+            >
+              FAQ
+            </Link>
+
             <Link
               href="/lien-he"
-              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-bold text-sm shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 transition-all flex items-center gap-2 group"
+              className={`px-3 py-2 rounded-lg text-sm font-bold transition-colors ${
+                pathname === "/lien-he"
+                  ? "text-[#D7181F] bg-red-50"
+                  : "text-slate-800 hover:text-[#D7181F] hover:bg-slate-50"
+              }`}
+            >
+              Liên hệ
+            </Link>
+          </nav>
+
+          {/* Search & CTA Button */}
+          <div className="hidden lg:flex items-center gap-3">
+            <div className="relative w-40">
+              <input
+                type="text"
+                placeholder="Tìm kiếm..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-8 pr-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs text-slate-800 focus:outline-none focus:border-[#D7181F]"
+              />
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+            </div>
+
+            <Link
+              href="/lien-he"
+              className="px-5 py-2.5 rounded-xl bg-[#D7181F] hover:bg-[#B81117] text-white font-extrabold text-xs tracking-wide shadow-md hover:shadow-lg transition-all flex items-center gap-2"
             >
               <span>Tư vấn giải pháp</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          {/* Mobile Right Controls */}
-          <div className="flex items-center gap-2 lg:hidden">
-            <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              className="p-2 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-slate-800"
-              aria-label="Tìm kiếm"
-            >
-              <Search className="w-5 h-5" />
-            </button>
-
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl text-amber-400 bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700"
-              aria-label="Toggle Mobile Menu"
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
-          </div>
+          {/* Mobile Hamburger Toggle Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle Navigation Menu"
+            className="lg:hidden p-2.5 rounded-xl bg-slate-100 text-slate-800 hover:bg-slate-200"
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
-
-        {/* Mobile Search Overlay Bar */}
-        {searchOpen && (
-          <div className="max-w-7xl mx-auto px-4 pt-3 pb-2 border-t border-slate-800 animate-fadeIn">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Tìm kiếm dịch vụ, bài viết kế toán thuế..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-slate-800 text-white placeholder-slate-400 text-sm px-4 py-2.5 pl-10 rounded-xl border border-slate-700 focus:outline-none focus:border-amber-400"
-              />
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
-              <button
-                onClick={() => setSearchOpen(false)}
-                className="absolute right-3 top-2.5 text-xs text-amber-400 font-semibold px-2 py-0.5 rounded bg-slate-700"
-              >
-                Đóng
-              </button>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl flex flex-col overflow-y-auto animate-fadeIn">
-          {/* Mobile Drawer Header */}
-          <div className="p-4 border-b border-slate-800 flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-lg bg-amber-400 flex items-center justify-center text-slate-950 font-black">
-                <Calculator className="w-5 h-5 stroke-[2.5]" />
-              </div>
-              <span className="font-bold text-white text-base">
-                Kế toán Thuế <span className="text-amber-400">Sóc Sơn</span>
-              </span>
-            </div>
-            <button
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white"
-            >
-              <X className="w-6 h-6" />
-            </button>
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-3">
+          <Link
+            href="/"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 text-sm font-bold text-slate-800 hover:text-[#D7181F]"
+          >
+            Trang chủ
+          </Link>
+          <Link
+            href="/gioi-thieu"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 text-sm font-bold text-slate-800 hover:text-[#D7181F]"
+          >
+            Giới thiệu
+          </Link>
+          <Link
+            href="/dich-vu"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 text-sm font-bold text-[#D7181F]"
+          >
+            Dịch vụ (6 Dịch vụ trọn gói)
+          </Link>
+          <div className="pl-4 space-y-2 border-l-2 border-red-200">
+            {siteConfig.services.map((svc) => (
+              <Link
+                key={svc.slug}
+                href={`/dich-vu/${svc.slug}`}
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-xs font-semibold text-slate-600 hover:text-[#D7181F]"
+              >
+                • {svc.title}
+              </Link>
+            ))}
           </div>
+          <Link
+            href="/bang-gia"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 text-sm font-bold text-slate-800 hover:text-[#D7181F]"
+          >
+            Bảng giá
+          </Link>
+          <Link
+            href="/blog"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 text-sm font-bold text-slate-800 hover:text-[#D7181F]"
+          >
+            Blog / Tin tức
+          </Link>
+          <Link
+            href="/faq"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 text-sm font-bold text-slate-800 hover:text-[#D7181F]"
+          >
+            FAQ
+          </Link>
+          <Link
+            href="/lien-he"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 text-sm font-bold text-slate-800 hover:text-[#D7181F]"
+          >
+            Liên hệ
+          </Link>
 
-          {/* Mobile Drawer Body */}
-          <div className="p-4 flex-1 space-y-3">
-            {siteConfig.navigation.map((item) => {
-              if (item.children) {
-                return (
-                  <div
-                    key={item.name}
-                    className="border border-slate-800 rounded-xl bg-slate-900/60 overflow-hidden"
-                  >
-                    <button
-                      onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                      className="w-full p-3.5 flex items-center justify-between text-slate-100 font-bold text-base"
-                    >
-                      <span>{item.name}</span>
-                      <ChevronDown
-                        className={`w-5 h-5 text-amber-400 transition-transform duration-200 ${
-                          mobileServicesOpen ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-
-                    {mobileServicesOpen && (
-                      <div className="p-2 pt-0 space-y-1 border-t border-slate-800 bg-slate-950/50">
-                        {item.children.map((sub) => (
-                          <Link
-                            key={sub.href}
-                            href={sub.href}
-                            className="block p-2.5 rounded-lg text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-800/80 font-medium"
-                          >
-                            <div className="font-bold text-slate-200">
-                              {sub.name}
-                            </div>
-                            <div className="text-xs text-slate-400 mt-0.5">
-                              {sub.desc}
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              }
-
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`block p-3.5 rounded-xl font-bold text-base transition-colors ${
-                    pathname === item.href
-                      ? "bg-amber-400 text-slate-950"
-                      : "text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Mobile Drawer Footer CTA */}
-          <div className="p-4 border-t border-slate-800 bg-slate-900 space-y-3">
-            <a
-              href={`tel:${siteConfig.contact.phone.replace(/\s+/g, "")}`}
-              className="w-full py-3 rounded-xl bg-slate-800 text-amber-400 font-bold text-center flex items-center justify-center gap-2 border border-amber-500/30"
-            >
-              <Phone className="w-4 h-4 animate-pulse" />
-              <span>Gọi tư vấn: {siteConfig.contact.phoneDisplay}</span>
-            </a>
-
+          <div className="pt-4">
             <Link
               href="/lien-he"
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold text-center block shadow-lg"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full py-3 rounded-xl bg-[#D7181F] text-white font-bold text-center block text-sm shadow-md"
             >
-              Đăng ký tư vấn giải pháp
+              Tư vấn giải pháp ngay
             </Link>
-
-            <div className="text-center text-xs text-slate-400 pt-1">
-              Địa chỉ: {siteConfig.contact.address}
-            </div>
           </div>
         </div>
       )}

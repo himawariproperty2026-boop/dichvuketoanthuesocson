@@ -5,193 +5,163 @@ import {
   Mail,
   MapPin,
   Clock,
-  Building2,
   ShieldCheck,
-  CheckCircle2,
+  Award,
+  Users,
   ExternalLink,
+  ChevronRight,
 } from "lucide-react";
+
 import { siteConfig } from "@/lib/siteConfig";
 
 export const Footer: React.FC = () => {
-  // Check if visitor counter env variable is configured
-  const showVisitorCounter = Boolean(process.env.KV_REST_API_URL);
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-950 text-slate-300 border-t border-slate-800">
-      {/* Top Footer Callout Banner */}
-      <div className="bg-gradient-to-r from-navy-800 to-navy-900 border-b border-amber-500/20 py-8 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-center md:text-left">
-            <h3 className="text-xl sm:text-2xl font-black text-white">
-              Cần Tư Vấn Thuế & Kế Toán Tại Sóc Sơn?
-            </h3>
-            <p className="text-slate-300 text-sm mt-1">
-              Đội ngũ chuyên viên sẵn sàng hỗ trợ giải đáp mọi thắc mắc của bạn trong vòng 15 phút.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <a
-              href={`tel:${siteConfig.contact.phone.replace(/\s+/g, "")}`}
-              className="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold text-sm hover:from-amber-500 hover:to-amber-600 transition-all flex items-center gap-2 shadow-lg shadow-amber-500/20"
-            >
-              <Phone className="w-4 h-4 animate-bounce" />
-              <span>Hotline: {siteConfig.contact.phoneDisplay}</span>
-            </a>
-            <a
-              href={siteConfig.social.zaloPage}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-sm border border-amber-500/30 transition-colors flex items-center gap-2"
-            >
-              <span>Nhắn Zalo Tư Vấn</span>
-              <ExternalLink className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      </div>
+    <footer className="bg-[#04266F] text-slate-200 border-t-4 border-[#D7181F] text-sm">
+      {/* Upper Footer Main Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          {/* Column 1: Brand Info & Address */}
+          <div className="space-y-4">
+            <Link href="/" className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#D7181F] text-white flex items-center justify-center font-black text-xl shadow-md">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-black text-lg tracking-tight text-white leading-none">
+                  KẾ TOÁN THUẾ <span className="text-red-400">SÓC SƠN</span>
+                </span>
+                <span className="text-[10px] text-slate-300 font-semibold tracking-wider uppercase mt-1">
+                  Chuyên Nghiệp - Uy Tín - Trọn Gói
+                </span>
+              </div>
+            </Link>
 
-      {/* Main Footer Links */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {/* Column 1: Company Profile */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl bg-amber-400 flex items-center justify-center text-slate-950 font-black">
-              <Building2 className="w-6 h-6 stroke-[2.5]" />
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Đơn vị cung cấp giải pháp kế toán thuế, quyết toán BCTC và thành lập công ty hàng đầu cho doanh nghiệp nhỏ và hộ kinh doanh tại khu vực Sóc Sơn, Mê Linh, Đông Anh.
+            </p>
+
+            <div className="space-y-2 pt-2 text-xs text-slate-300">
+              <div className="flex items-start gap-2">
+                <MapPin className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
+                <span>Trụ sở: {siteConfig.contact.address}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-red-400 flex-shrink-0" />
+                <span>Hotline: <strong className="text-white">{siteConfig.contact.phoneDisplay}</strong></span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-red-400 flex-shrink-0" />
+                <span>Email: {siteConfig.contact.email}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-red-400 flex-shrink-0" />
+                <span>Mã số thuế: {siteConfig.contact.taxCode}</span>
+              </div>
             </div>
-            <span className="font-extrabold text-white text-lg tracking-tight">
-              KẾ TOÁN THUẾ <span className="text-amber-400">SÓC SƠN</span>
-            </span>
           </div>
-          <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            Đơn vị tư vấn dịch vụ kế toán thuế trọn gói, thành lập doanh nghiệp & quyết toán thuế chuyên nghiệp uy tín hàng đầu khu vực Sóc Sơn, Đông Anh, Mê Linh.
-          </p>
-          <div className="space-y-2 text-xs text-slate-300 pt-2 border-t border-slate-800">
-            <p className="font-semibold text-amber-300">
-              {siteConfig.companyName}
-            </p>
-            <p className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-amber-400 flex-shrink-0" />
-              <span>Mã số thuế: {siteConfig.contact.taxCode}</span>
-            </p>
+
+          {/* Column 2: Quick Links */}
+          <div className="space-y-4">
+            <h3 className="font-bold text-white text-base border-b border-blue-800 pb-2">
+              Dịch Vụ Trọng Tâm
+            </h3>
+            <ul className="space-y-2.5 text-xs text-slate-300">
+              {siteConfig.services.map((svc) => (
+                <li key={svc.slug}>
+                  <Link
+                    href={`/dich-vu/${svc.slug}`}
+                    className="hover:text-red-300 transition-colors flex items-center gap-1.5"
+                  >
+                    <ChevronRight className="w-3.5 h-3.5 text-red-400" />
+                    <span>{svc.title}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
 
-        {/* Column 2: Headquarter & Contact */}
-        <div className="space-y-4">
-          <h4 className="text-white font-bold text-sm uppercase tracking-wider border-b border-amber-500/30 pb-2">
-            Văn Phòng Sóc Sơn
-          </h4>
-          <ul className="space-y-3 text-xs sm:text-sm text-slate-300">
-            <li className="flex items-start gap-2.5">
-              <MapPin className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-              <span>{siteConfig.contact.address}</span>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <Phone className="w-4 h-4 text-amber-400 flex-shrink-0" />
-              <a
-                href={`tel:${siteConfig.contact.phone.replace(/\s+/g, "")}`}
-                className="hover:text-amber-400 transition-colors font-bold text-amber-300"
-              >
-                {siteConfig.contact.phoneDisplay}
-              </a>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <Mail className="w-4 h-4 text-amber-400 flex-shrink-0" />
-              <a
-                href={`mailto:${siteConfig.contact.email}`}
-                className="hover:text-amber-400 transition-colors"
-              >
-                {siteConfig.contact.email}
-              </a>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <Clock className="w-4 h-4 text-amber-400 flex-shrink-0" />
-              <span>{siteConfig.contact.workingHours}</span>
-            </li>
-          </ul>
-        </div>
-
-        {/* Column 3: Direct Service Links */}
-        <div className="space-y-4">
-          <h4 className="text-white font-bold text-sm uppercase tracking-wider border-b border-amber-500/30 pb-2">
-            Dịch Vụ Chính
-          </h4>
-          <ul className="space-y-2 text-xs sm:text-sm">
-            {siteConfig.services.map((svc) => (
-              <li key={svc.slug}>
-                <Link
-                  href={`/dich-vu/${svc.slug}`}
-                  className="text-slate-300 hover:text-amber-400 transition-colors flex items-center gap-1.5"
-                >
-                  <span className="text-amber-500">›</span>
-                  <span>{svc.title}</span>
+          {/* Column 3: Quick Navigation & Legal */}
+          <div className="space-y-4">
+            <h3 className="font-bold text-white text-base border-b border-blue-800 pb-2">
+              Thông Tin & Pháp Lý
+            </h3>
+            <ul className="space-y-2.5 text-xs text-slate-300">
+              <li>
+                <Link href="/gioi-thieu" className="hover:text-red-300 transition-colors flex items-center gap-1.5">
+                  <ChevronRight className="w-3.5 h-3.5 text-red-400" />
+                  <span>Về chúng tôi</span>
                 </Link>
               </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Column 4: Quick Links & Legal */}
-        <div className="space-y-4">
-          <h4 className="text-white font-bold text-sm uppercase tracking-wider border-b border-amber-500/30 pb-2">
-            Liên Kết & Pháp Lý
-          </h4>
-          <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
-            <li>
-              <Link href="/gioi-thieu" className="hover:text-amber-400">
-                Giới thiệu công ty
-              </Link>
-            </li>
-            <li>
-              <Link href="/bang-gia" className="hover:text-amber-400">
-                Bảng giá dịch vụ 3 gói
-              </Link>
-            </li>
-            <li>
-              <Link href="/blog" className="hover:text-amber-400">
-                Tin tức & Kinh nghiệm thuế
-              </Link>
-            </li>
-            <li>
-              <Link href="/faq" className="hover:text-amber-400">
-                Câu hỏi thường gặp (FAQ)
-              </Link>
-            </li>
-            <li>
-              <Link href="/chinh-sach-bao-mat" className="hover:text-amber-400 font-medium text-amber-300/90">
-                Chính sách bảo mật (Nghị định 13/2023)
-              </Link>
-            </li>
-            <li>
-              <Link href="/dieu-khoan-su-dung" className="hover:text-amber-400">
-                Điều khoản sử dụng
-              </Link>
-            </li>
-          </ul>
-
-          {/* Ministry of Industry and Trade certification badge simulation */}
-          <div className="pt-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-slate-900 border border-slate-800 text-[11px] text-slate-400">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Đã thông báo Bộ Công Thương</span>
-            </div>
+              <li>
+                <Link href="/bang-gia" className="hover:text-red-300 transition-colors flex items-center gap-1.5">
+                  <ChevronRight className="w-3.5 h-3.5 text-red-400" />
+                  <span>Bảng giá 3 gói dịch vụ</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="hover:text-red-300 transition-colors flex items-center gap-1.5">
+                  <ChevronRight className="w-3.5 h-3.5 text-red-400" />
+                  <span>Blog kinh nghiệm thuế</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="hover:text-red-300 transition-colors flex items-center gap-1.5">
+                  <ChevronRight className="w-3.5 h-3.5 text-red-400" />
+                  <span>Câu hỏi thường gặp (FAQ)</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/chinh-sach-bao-mat" className="hover:text-red-300 transition-colors flex items-center gap-1.5">
+                  <ChevronRight className="w-3.5 h-3.5 text-red-400" />
+                  <span>Chính sách bảo mật (NĐ 13/2023)</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/dieu-khoan-su-dung" className="hover:text-red-300 transition-colors flex items-center gap-1.5">
+                  <ChevronRight className="w-3.5 h-3.5 text-red-400" />
+                  <span>Điều khoản sử dụng</span>
+                </Link>
+              </li>
+            </ul>
           </div>
 
-          {/* Real Visitor Counter (Only rendered if KV_REST_API_URL environment is configured) */}
-          {showVisitorCounter && (
-            <div className="pt-2 border-t border-slate-800/80 text-xs text-slate-400">
-              <span className="text-amber-400 font-semibold">Lượt truy cập:</span>{" "}
-              12,450+
+          {/* Column 4: Commitments & Certification */}
+          <div className="space-y-4">
+            <h3 className="font-bold text-white text-base border-b border-blue-800 pb-2">
+              Cam Kết Dịch Vụ
+            </h3>
+            <div className="p-4 rounded-xl bg-blue-950/60 border border-blue-800 space-y-2 text-xs">
+              <div className="flex items-center gap-2 font-bold text-white">
+                <ShieldCheck className="w-4 h-4 text-red-400" />
+                <span>Trách Nhiệm Hợp Đồng</span>
+              </div>
+              <p className="text-[11px] text-slate-300">
+                Trực tiếp làm việc và chịu trách nhiệm giải trình số liệu nghiệp vụ theo đúng điều khoản hợp đồng dịch vụ.
+              </p>
             </div>
-          )}
+
+            {/* Ministry of Industry and Trade Mock Badge */}
+            <div className="pt-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 border border-white/20 text-xs font-bold text-white">
+                <Award className="w-4 h-4 text-red-400" />
+                <span>Đã thông báo Bộ Công Thương</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Bottom Copyright */}
-      <div className="bg-slate-950 py-4 px-4 border-t border-slate-900 text-center text-xs text-slate-400">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p>© {new Date().getFullYear()} {siteConfig.companyName}. All rights reserved.</p>
-          <p className="text-slate-400">Phục vụ chính: Sóc Sơn, Đông Anh, Mê Linh, Hà Nội</p>
+      {/* Bottom Copyright Bar */}
+      <div className="bg-blue-950 py-4 border-t border-blue-900 text-xs text-slate-400 text-center">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <div>
+            © {currentYear} <strong>{siteConfig.companyName}</strong>. Bản quyền thuộc về {siteConfig.domain}.
+          </div>
+          <div className="text-[11px] text-slate-400">
+            Phục vụ khu vực Sóc Sơn, Mê Linh, Đông Anh, Nội Bài & Hà Nội
+          </div>
         </div>
       </div>
     </footer>

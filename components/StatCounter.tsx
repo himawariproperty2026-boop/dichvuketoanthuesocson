@@ -11,60 +11,67 @@ interface StatCounterProps {
 
 export const StatCounter: React.FC<StatCounterProps> = ({
   value,
-  suffix = "",
+  suffix = "+",
   label,
   description,
 }) => {
   const [count, setCount] = useState(0);
-  const counterRef = useRef<HTMLDivElement>(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          let start = 0;
-          const duration = 2000; // 2 seconds
-          const steps = 40;
-          const stepTime = duration / steps;
-          const increment = value / steps;
-
-          const timer = setInterval(() => {
-            start += increment;
-            if (start >= value) {
-              setCount(value);
-              clearInterval(timer);
-            } else {
-              setCount(Math.ceil(start));
-            }
-          }, stepTime);
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
         }
       },
       { threshold: 0.3 }
     );
 
-    if (counterRef.current) {
-      observer.observe(counterRef.current);
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
     }
 
     return () => observer.disconnect();
-  }, [value, hasAnimated]);
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    let start = 0;
+    const duration = 2000;
+    const stepTime = 30;
+    const steps = duration / stepTime;
+    const increment = value / steps;
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= value) {
+        setCount(value);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, stepTime);
+
+    return () => clearInterval(timer);
+  }, [isVisible, value]);
 
   return (
     <div
-      ref={counterRef}
-      className="p-6 rounded-2xl bg-slate-900/80 border border-amber-500/20 text-center shadow-xl backdrop-blur-md hover:border-amber-400/50 transition-all duration-300 group"
+      ref={elementRef}
+      className="p-6 rounded-2xl bg-white border border-slate-200 shadow-soft text-center space-y-2 group hover:border-red-200 hover:shadow-xl transition-all"
     >
-      <div className="text-3xl sm:text-4xl lg:text-5xl font-black text-amber-400 tracking-tight group-hover:scale-105 transition-transform duration-300">
+      <div className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#D7181F] tracking-tight">
         {count}
-        <span>{suffix}</span>
+        {suffix}
       </div>
-      <div className="mt-2 text-sm sm:text-base font-bold text-white leading-snug">
+      <div className="font-extrabold text-slate-900 text-sm sm:text-base">
         {label}
       </div>
       {description && (
-        <div className="mt-1 text-xs text-slate-400">{description}</div>
+        <p className="text-xs text-slate-500 line-clamp-1">{description}</p>
       )}
     </div>
   );

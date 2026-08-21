@@ -1,42 +1,41 @@
 import React from "react";
-import { ArrowRight, CheckCircle } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 interface StepItemProps {
-  step: number;
-  title: string;
-  desc: string;
-  isLast?: boolean;
+  step: {
+    step: number;
+    title: string;
+    desc: string;
+  };
+  icon?: React.ReactNode;
 }
 
-export const StepItem: React.FC<StepItemProps> = ({
-  step,
-  title,
-  desc,
-  isLast = false,
-}) => {
+export const StepItem: React.FC<StepItemProps> = ({ step, icon }) => {
   return (
-    <div className="relative group bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-amber-400 transition-all duration-300 flex flex-col justify-between h-full">
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 font-black text-xl flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:scale-110 transition-transform">
-            0{step}
+    <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-soft hover:shadow-xl hover:border-red-200 transition-all duration-300 relative group flex flex-col justify-between">
+      {/* Step Number Badge */}
+      <div className="absolute -top-3.5 left-6 px-3.5 py-0.5 rounded-full bg-[#D7181F] text-white font-black text-xs shadow-md">
+        BƯỚC {step.step}
+      </div>
+
+      <div className="pt-2 space-y-3">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-red-50 text-[#D7181F] flex items-center justify-center font-bold">
+            {icon || <CheckCircle2 className="w-5 h-5" />}
           </div>
-          <span className="text-xs font-bold text-amber-600 uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">
-            Bước {step}
-          </span>
+          <h3 className="font-extrabold text-slate-900 text-base group-hover:text-[#D7181F] transition-colors">
+            {step.title}
+          </h3>
         </div>
 
-        <h3 className="text-lg font-bold text-slate-900 group-hover:text-navy-800 transition-colors mb-2">
-          {title}
-        </h3>
-        <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-          {desc}
+        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          {step.desc}
         </p>
       </div>
 
-      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
-        <CheckCircle className="w-4 h-4" />
-        <span>Cam kết chuẩn xác 100%</span>
+      <div className="pt-3 mt-3 border-t border-slate-100 text-[11px] font-semibold text-[#D7181F] flex items-center gap-1">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#D7181F]"></span>
+        <span>Quy trình chuẩn Sóc Sơn</span>
       </div>
     </div>
   );

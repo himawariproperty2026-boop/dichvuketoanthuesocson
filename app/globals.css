@@ -1,97 +1,52 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif;
+  --color-navy-950: #021233;
+  --color-navy-900: #04266F;
+  --color-navy-800: #0A378D;
+  --color-navy-700: #124DB3;
+  --color-red-600: #D7181F;
+  --color-red-700: #B81117;
+  --color-red-50: #FFF1F2;
+}
+
 @layer base {
-  :root {
-    --color-navy-900: #081E36;
-    --color-navy-800: #0F3A66;
-    --color-navy-700: #174E85;
-    --color-navy-600: #1E62A4;
-    --color-navy-50: #F0F5FA;
-    
-    --color-gold-600: #B89025;
-    --color-gold-500: #D4AF37;
-    --color-gold-400: #E5C158;
-    --color-gold-100: #FDF7E7;
-    --color-gold-50: #FFFDF7;
-    
-    --color-slate-900: #0F172A;
-    --color-slate-800: #1E293B;
-    --color-slate-700: #334155;
-    --color-slate-100: #F1F5F9;
-    --color-slate-50: #F8FAFC;
+  body {
+    background-color: #FFFFFF;
+    color: #1E293B;
+    font-family: var(--font-plus-jakarta), system-ui, sans-serif;
   }
 }
 
-@theme {
-  --color-navy-900: #081E36;
-  --color-navy-800: #0F3A66;
-  --color-navy-700: #174E85;
-  --color-navy-600: #1E62A4;
-  --color-navy-50: #F0F5FA;
-  
-  --color-gold-600: #B89025;
-  --color-gold-500: #D4AF37;
-  --color-gold-400: #E5C158;
-  --color-gold-100: #FDF7E7;
-  --color-gold-50: #FFFDF7;
-
-  --color-brand-blue: #0F3A66;
-  --color-brand-gold: #D4AF37;
-
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+/* Custom Utilities */
+.bg-pastel-hero {
+  background: linear-gradient(135deg, rgba(250, 215, 216, 0.45) 0%, rgba(255, 255, 255, 1) 50%, rgba(235, 242, 251, 0.5) 100%);
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #F1F5F9;
-}
-::-webkit-scrollbar-thumb {
-  background: #0F3A66;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #D4AF37;
-}
-
-/* Smooth Scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background-color: #F8FAFC;
-  color: #1E293B;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  overflow-x: hidden;
-}
-
-/* Gold Gradient Utilities */
-.bg-gradient-gold {
-  background: linear-gradient(135deg, #D4AF37 0%, #B89025 100%);
-}
-
-.text-gradient-gold {
-  background: linear-gradient(135deg, #D4AF37 0%, #F3E5AB 50%, #B89025 100%);
+.text-gradient-red {
+  background: linear-gradient(135deg, #D7181F 0%, #04266F 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.bg-gradient-navy {
-  background: linear-gradient(135deg, #0F3A66 0%, #081E36 100%);
+.shadow-soft {
+  box-shadow: 0 10px 30px -5px rgba(4, 38, 111, 0.08);
 }
 
-/* Marquee Animation */
+.shadow-card-hover {
+  transition: all 0.3s ease;
+}
+
+.shadow-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px -5px rgba(215, 24, 31, 0.12);
+}
+
+/* Keyframes for Marquee */
 @keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
 }
 
 .animate-marquee {
@@ -102,19 +57,4 @@ body {
 
 .animate-marquee:hover {
   animation-play-state: paused;
-}
-
-/* Glassmorphism */
-.glass-card {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-}
-
-.glass-card-dark {
-  background: rgba(15, 58, 102, 0.9);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(212, 175, 55, 0.25);
 }

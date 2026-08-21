@@ -2,16 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  Calendar,
-  Clock,
-  User,
-  Tag,
-  ArrowLeft,
-  Share2,
-  Bookmark,
-  CheckCircle2,
-} from "lucide-react";
+import { Calendar, Clock, Tag, ArrowLeft } from "lucide-react";
 
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -85,46 +76,46 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
 
       <main className="flex-1">
         {/* Article Hero */}
-        <section className="bg-slate-950 text-white py-12 sm:py-16 border-b border-slate-800">
+        <section className="bg-pastel-hero py-12 sm:py-16 border-b border-slate-200">
           <div className="max-w-4xl mx-auto px-4 sm:px-6">
             {/* Breadcrumbs */}
-            <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 mb-4">
-              <Link href="/" className="hover:text-amber-400">Trang chủ</Link>
+            <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-4 font-semibold">
+              <Link href="/" className="hover:text-[#D7181F]">Trang chủ</Link>
               <span>/</span>
-              <Link href="/blog" className="hover:text-amber-400">Blog</Link>
+              <Link href="/blog" className="hover:text-[#D7181F]">Blog</Link>
               <span>/</span>
-              <span className="text-amber-400 font-semibold line-clamp-1">{post.title}</span>
+              <span className="text-[#D7181F] font-bold line-clamp-1">{post.title}</span>
             </div>
 
-            <div className="inline-block px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold mb-3 border border-amber-500/30">
+            <div className="inline-block px-3 py-1 rounded-full bg-red-50 text-[#D7181F] text-xs font-extrabold mb-3 border border-red-200">
               {post.category}
             </div>
 
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight tracking-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 leading-tight tracking-tight">
               {post.title}
             </h1>
 
             {/* Post Metadata */}
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-xs sm:text-sm text-slate-300 pt-4 border-t border-slate-800">
+            <div className="mt-6 flex flex-wrap items-center gap-4 text-xs sm:text-sm text-slate-600 pt-4 border-t border-slate-200">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-amber-400 text-slate-950 font-bold flex items-center justify-center text-xs">
+                <div className="w-8 h-8 rounded-full bg-[#D7181F] text-white font-bold flex items-center justify-center text-xs">
                   {post.author.name[0]}
                 </div>
                 <div>
-                  <div className="font-bold text-white">{post.author.name}</div>
-                  <div className="text-[11px] text-slate-400">{post.author.role}</div>
+                  <div className="font-bold text-slate-900">{post.author.name}</div>
+                  <div className="text-[11px] text-slate-500">{post.author.role}</div>
                 </div>
               </div>
 
-              <span className="text-slate-700">•</span>
-              <div className="flex items-center gap-1.5">
-                <Calendar className="w-4 h-4 text-amber-500" />
+              <span className="text-slate-300">•</span>
+              <div className="flex items-center gap-1.5 font-semibold">
+                <Calendar className="w-4 h-4 text-[#D7181F]" />
                 <span>{post.date}</span>
               </div>
 
-              <span className="text-slate-700">•</span>
-              <div className="flex items-center gap-1.5">
-                <Clock className="w-4 h-4 text-amber-500" />
+              <span className="text-slate-300">•</span>
+              <div className="flex items-center gap-1.5 font-semibold">
+                <Clock className="w-4 h-4 text-[#D7181F]" />
                 <span>{post.readingTime}</span>
               </div>
             </div>
@@ -135,7 +126,7 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
         <section className="py-12 bg-white border-b border-slate-200">
           <div className="max-w-4xl mx-auto px-4 sm:px-6">
             {/* Cover Image */}
-            <div className="rounded-2xl overflow-hidden mb-10 border border-slate-200 shadow-lg">
+            <div className="rounded-2xl overflow-hidden mb-10 border border-slate-200 shadow-md">
               <img
                 src={post.coverImage}
                 alt={post.title}
@@ -169,7 +160,7 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
             <div className="mt-8">
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#04266F] hover:bg-blue-900 text-white font-bold text-xs"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Quay lại danh sách bài viết</span>
@@ -195,13 +186,13 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
         )}
 
         {/* Contact Form CTA */}
-        <section id="dang-ky" className="py-16 bg-slate-950 text-white">
+        <section id="dang-ky" className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-white">
+              <h3 className="text-2xl font-bold text-slate-900">
                 Cần Tư Vấn Kế Toán Thuế Trực Tiếp Tại Sóc Sơn?
               </h3>
-              <p className="text-slate-300 text-sm mt-1">
+              <p className="text-slate-600 text-sm mt-1">
                 Để lại thông tin, chuyên viên tư vấn sẽ liên hệ lại hỗ trợ miễn phí trong 15 phút
               </p>
             </div>

@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Calendar, Clock, ArrowRight, Sparkles } from "lucide-react";
+import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { BlogPost } from "@/lib/blog";
 
 interface BlogCardProps {
@@ -10,74 +9,62 @@ interface BlogCardProps {
 
 export const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
   return (
-    <article className="group bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between h-full">
+    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft hover:shadow-xl hover:border-red-200 transition-all duration-300 flex flex-col justify-between group">
       <div>
-        {/* Cover Image */}
-        <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
+        {/* Cover Image & Category Tag */}
+        <div className="relative h-48 overflow-hidden bg-slate-100">
           <img
             src={post.coverImage}
             alt={post.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
-            loading="lazy"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
-
-          {/* Badges */}
-          <div className="absolute top-3 left-3 flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full bg-slate-900/90 backdrop-blur-md text-amber-400 text-xs font-bold border border-amber-500/30">
-              {post.category}
-            </span>
-            {post.isNew && (
-              <span className="px-2.5 py-0.5 rounded-full bg-red-600 text-white text-[11px] font-black uppercase tracking-wider animate-pulse flex items-center gap-1 shadow-md">
-                <Sparkles className="w-3 h-3 fill-current" />
-                MỚI
-              </span>
-            )}
+          <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-[#D7181F] text-white text-[11px] font-extrabold shadow-md">
+            {post.category}
           </div>
+          {post.isNew && (
+            <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black uppercase">
+              MỚI
+            </div>
+          )}
         </div>
 
         {/* Card Content */}
-        <div className="p-5 sm:p-6">
-          <div className="flex items-center gap-4 text-xs text-slate-400 mb-3">
+        <div className="p-5 space-y-3">
+          <div className="flex items-center gap-3 text-xs text-slate-500 font-medium">
             <span className="flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5 text-amber-500" />
+              <Calendar className="w-3.5 h-3.5 text-[#D7181F]" />
               {post.date}
             </span>
+            <span>•</span>
             <span className="flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5 text-amber-500" />
+              <Clock className="w-3.5 h-3.5 text-[#D7181F]" />
               {post.readingTime}
             </span>
           </div>
 
-          <h3 className="text-lg font-bold text-slate-900 group-hover:text-navy-800 transition-colors line-clamp-2 mb-2.5 leading-snug">
+          <h3 className="font-extrabold text-slate-900 text-base group-hover:text-[#D7181F] transition-colors line-clamp-2 leading-snug">
             <Link href={`/blog/${post.slug}`}>{post.title}</Link>
           </h3>
 
-          <p className="text-slate-600 text-xs sm:text-sm line-clamp-2 leading-relaxed mb-4">
+          <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
             {post.excerpt}
           </p>
         </div>
       </div>
 
-      {/* Footer Author & Link */}
-      <div className="px-5 sm:px-6 pb-5 pt-3 border-t border-slate-100 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-xs text-slate-600">
-          <div className="w-6 h-6 rounded-full bg-amber-400 text-slate-950 font-bold flex items-center justify-center text-[10px]">
-            {post.author.name[0]}
-          </div>
-          <span className="font-medium text-slate-700 truncate max-w-[120px]">
-            {post.author.name}
-          </span>
-        </div>
-
+      {/* Card Footer */}
+      <div className="px-5 pb-5 pt-3 border-t border-slate-100 flex items-center justify-between">
+        <span className="text-xs font-bold text-slate-700">
+          {post.author.name}
+        </span>
         <Link
           href={`/blog/${post.slug}`}
-          className="text-xs font-bold text-navy-800 group-hover:text-amber-600 flex items-center gap-1 transition-colors"
+          className="text-xs font-extrabold text-[#D7181F] group-hover:text-red-700 flex items-center gap-1"
         >
-          <span>Đọc bài viết</span>
+          <span>Đọc tiếp</span>
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
-    </article>
+    </div>
   );
 };

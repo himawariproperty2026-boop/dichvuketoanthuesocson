@@ -1,17 +1,7 @@
 import React from "react";
 import Metadata from "next";
 import Link from "next/link";
-import {
-  Check,
-  Zap,
-  ShieldCheck,
-  HelpCircle,
-  Phone,
-  ArrowRight,
-  Calculator,
-  FileCheck2,
-  Building2,
-} from "lucide-react";
+import { Check, ShieldCheck, Phone, ArrowRight } from "lucide-react";
 
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -80,7 +70,6 @@ export default function PricingPage() {
     },
   ];
 
-  // Read add-on services from siteConfig (with partner notes and TODO price warnings)
   const addOnServices = siteConfig.addOnServices;
 
   return (
@@ -89,19 +78,19 @@ export default function PricingPage() {
 
       <main className="flex-1">
         {/* Banner Hero */}
-        <section className="bg-slate-950 text-white py-14 sm:py-20 border-b border-slate-800">
+        <section className="bg-pastel-hero py-14 sm:py-20 border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-            <div className="flex items-center justify-center gap-2 text-xs text-slate-400 mb-4">
-              <Link href="/" className="hover:text-amber-400">Trang chủ</Link>
+            <div className="flex items-center justify-center gap-2 text-xs text-slate-500 mb-4 font-semibold">
+              <Link href="/" className="hover:text-[#D7181F]">Trang chủ</Link>
               <span>/</span>
-              <span className="text-amber-400 font-semibold">Bảng giá</span>
+              <span className="text-[#D7181F] font-bold">Bảng giá</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
-              Bảng Giá Dịch Vụ Kế Toán Thuế <span className="text-amber-400">Tại Sóc Sơn</span>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
+              Bảng Giá Dịch Vụ Kế Toán Thuế <span className="text-[#D7181F]">Tại Sóc Sơn</span>
             </h1>
 
-            <p className="mt-4 text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+            <p className="mt-4 text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
               Chi phí công khai minh bạch, báo giá trọn gói ngay từ đầu. Không phí ẩn, miễn phí nhận hồ sơ chứng từ tận nơi cho doanh nghiệp tại Sóc Sơn.
             </p>
           </div>
@@ -133,12 +122,12 @@ export default function PricingPage() {
             />
 
             <div className="mt-10 overflow-x-auto">
-              <table className="w-full bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm text-left border-collapse">
+              <table className="w-full bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-900 text-white text-xs sm:text-sm">
+                  <tr className="bg-[#04266F] text-white text-xs sm:text-sm">
                     <th className="p-4 sm:p-5 font-bold w-1/3">Hạng mục so sánh</th>
                     <th className="p-4 sm:p-5 font-bold text-center">Gói Cơ Bản</th>
-                    <th className="p-4 sm:p-5 font-bold text-center text-amber-400">Gói Chuyên Nghiệp ⭐</th>
+                    <th className="p-4 sm:p-5 font-bold text-center text-amber-300">Gói Chuyên Nghiệp ⭐</th>
                     <th className="p-4 sm:p-5 font-bold text-center">Gói Doanh Nghiệp Lớn</th>
                   </tr>
                 </thead>
@@ -157,7 +146,7 @@ export default function PricingPage() {
                           row.coBan
                         )}
                       </td>
-                      <td className="p-4 text-center font-bold text-slate-900 bg-amber-500/5">
+                      <td className="p-4 text-center font-bold text-slate-900 bg-red-50/30">
                         {typeof row.chuyenNghiep === "boolean" ? (
                           row.chuyenNghiep ? (
                             <Check className="w-5 h-5 text-emerald-600 mx-auto stroke-[3]" />
@@ -197,12 +186,12 @@ export default function PricingPage() {
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
               {addOnServices.map((item, idx) => (
-                <div key={idx} className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex items-start justify-between gap-4">
+                <div key={idx} className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex items-start justify-between gap-4 shadow-xs">
                   <div>
                     <h3 className="font-bold text-slate-900 text-base">{item.name}</h3>
                     <p className="text-xs text-slate-500 mt-1">{item.note}</p>
                   </div>
-                  <div className="text-amber-600 font-black text-sm whitespace-nowrap bg-amber-100 px-3 py-1 rounded-lg">
+                  <div className="text-[#D7181F] font-black text-sm whitespace-nowrap bg-red-50 px-3 py-1 rounded-lg border border-red-200">
                     {item.price}
                   </div>
                 </div>
@@ -212,13 +201,12 @@ export default function PricingPage() {
         </section>
 
         {/* Contact Form */}
-        <section id="dang-ky" className="py-16 bg-slate-950 text-white">
+        <section id="dang-ky" className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <SectionHeading
               subtitle="Đăng ký tư vấn"
               title="Nhận Báo Giá Chi Tiết Theo Số Lượng Hóa Đơn"
               description="Để lại thông tin, chuyên viên kế toán sẽ gửi báo giá trọn gói chuẩn xác cho doanh nghiệp của bạn"
-              dark
             />
             <div className="mt-10">
               <ContactFormSection />
