@@ -210,19 +210,8 @@ export const Header: React.FC = () => {
             </Link>
           </nav>
 
-          {/* Search & Desktop CTA */}
+          {/* Desktop CTA Button */}
           <div className="hidden lg:flex items-center gap-3">
-            <div className="relative w-40">
-              <input
-                type="text"
-                placeholder="Tìm kiếm..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-8 pr-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs text-slate-800 focus:outline-none focus:border-[#D7181F]"
-              />
-              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
-            </div>
-
             <Link
               href="/lien-he"
               className="px-5 py-2.5 rounded-xl bg-[#D7181F] hover:bg-[#B81117] text-white font-extrabold text-xs tracking-wide shadow-md hover:shadow-lg transition-all flex items-center gap-2"

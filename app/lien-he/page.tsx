@@ -1,7 +1,7 @@
 import React from "react";
 import Metadata from "next";
 import Link from "next/link";
-import { Phone, Mail, MapPin, Clock, MessageSquare, ShieldCheck } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
 
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -42,11 +42,29 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* Contact Info Cards */}
-        <section className="py-12 bg-white border-b border-slate-200">
+        {/* SECTION 1: Contact Form Section (Moved to top as requested) */}
+        <section className="py-16 bg-white border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-3 shadow-soft hover:shadow-lg transition-all">
+            <SectionHeading
+              subtitle="Gửi thông tin"
+              title="Đăng Ký Nhận Tư Vấn Trực Tiếp"
+            />
+            <div className="mt-10">
+              <ContactFormSection />
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 2: Contact Info Cards (Moved below form as requested) */}
+        <section className="py-16 bg-slate-50 border-b border-slate-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <SectionHeading
+              subtitle="Thông tin trực tiếp"
+              title="Kênh Liên Hệ Nhanh & Văn Phòng Làm Việc"
+            />
+
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="p-6 rounded-2xl bg-white border border-slate-200 text-center space-y-3 shadow-soft hover:shadow-lg transition-all">
                 <div className="w-12 h-12 rounded-xl bg-red-50 text-[#D7181F] font-bold flex items-center justify-center mx-auto">
                   <Phone className="w-6 h-6" />
                 </div>
@@ -60,7 +78,7 @@ export default function ContactPage() {
                 <p className="text-xs text-slate-500">Phản hồi cuộc gọi và Zalo trong 15 phút</p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-3 shadow-soft hover:shadow-lg transition-all">
+              <div className="p-6 rounded-2xl bg-white border border-slate-200 text-center space-y-3 shadow-soft hover:shadow-lg transition-all">
                 <div className="w-12 h-12 rounded-xl bg-red-50 text-[#D7181F] font-bold flex items-center justify-center mx-auto">
                   <MapPin className="w-6 h-6" />
                 </div>
@@ -71,7 +89,7 @@ export default function ContactPage() {
                 <p className="text-xs text-slate-500">Giao nhận chứng từ tận nơi tại Sóc Sơn</p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-3 shadow-soft hover:shadow-lg transition-all">
+              <div className="p-6 rounded-2xl bg-white border border-slate-200 text-center space-y-3 shadow-soft hover:shadow-lg transition-all">
                 <div className="w-12 h-12 rounded-xl bg-red-50 text-[#D7181F] font-bold flex items-center justify-center mx-auto">
                   <Mail className="w-6 h-6" />
                 </div>
@@ -84,19 +102,6 @@ export default function ContactPage() {
                 </a>
                 <p className="text-xs text-slate-500">Mã số thuế: {siteConfig.contact.taxCode}</p>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Contact Form */}
-        <section className="py-16 bg-slate-50 border-b border-slate-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <SectionHeading
-              subtitle="Gửi thông tin"
-              title="Đăng Ký Nhận Tư Vấn Trực Tiếp"
-            />
-            <div className="mt-10">
-              <ContactFormSection />
             </div>
           </div>
         </section>
