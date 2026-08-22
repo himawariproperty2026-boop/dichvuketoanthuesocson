@@ -150,7 +150,7 @@ export default async function HomePage() {
                       </div>
                     </div>
                     <div className="px-3.5 py-1.5 rounded-xl bg-[#D7181F] text-white text-xs sm:text-sm font-black shrink-0 shadow-xs">
-                      10+ NĂM
+                      10+ NĂM KINH NGHIỆM
                     </div>
                   </div>
                 </div>
