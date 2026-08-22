@@ -24,7 +24,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({ pkg }) => {
 
   return (
     <div
-      className={`rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 relative ${
+      className={`rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 relative ${
         pkg.recommended
           ? "bg-white border-2 border-[#D7181F] shadow-2xl scale-105 z-10"
           : "bg-white border border-slate-200 shadow-soft hover:shadow-xl hover:border-slate-300"
@@ -41,20 +41,24 @@ export const PricingCard: React.FC<PricingCardProps> = ({ pkg }) => {
       <div>
         {/* Card Header Info */}
         <div className="text-center pb-6 border-b border-slate-100">
-          <h3 className="font-black text-xl text-slate-900">{pkg.name}</h3>
+          <h3 className="font-black text-lg sm:text-xl text-slate-900">{pkg.name}</h3>
           <p className="text-xs text-slate-500 mt-1 min-h-[32px] flex items-center justify-center">
             {pkg.target}
           </p>
 
-          <div className="mt-4 flex flex-col sm:flex-row items-baseline justify-center gap-1">
+          <div className="mt-4 flex items-baseline justify-center gap-1 whitespace-nowrap">
             <span
               className={`${
-                isContactPrice ? "text-2xl sm:text-3xl" : "text-3xl sm:text-4xl"
-              } font-black text-[#D7181F]`}
+                isContactPrice
+                  ? "text-xl sm:text-2xl"
+                  : pkg.price.length > 10
+                  ? "text-xl sm:text-2xl lg:text-[26px]"
+                  : "text-2xl sm:text-3xl"
+              } font-black text-[#D7181F] whitespace-nowrap`}
             >
               {pkg.price}
             </span>
-            <span className="text-xs font-bold text-slate-500">{pkg.period}</span>
+            <span className="text-xs font-bold text-slate-500 shrink-0">{pkg.period}</span>
           </div>
         </div>
 
