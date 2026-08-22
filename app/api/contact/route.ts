@@ -68,7 +68,34 @@ export async function POST(request: Request) {
     console.log("=== NEW CONTACT SUBMISSION RECEIVED ===");
     console.log(submissionData);
 
-    // 5. Optional Webhook Notification (e.g. Telegram / Zalo OA / CRM)
+    // 5. Send Instant Telegram Bot Notification (if TELEGRAM_BOT_TOKEN & TELEGRAM_CHAT_ID exist)
+    const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
+    const telegramChatId = process.env.TELEGRAM_CHAT_ID;
+    if (telegramToken && telegramChatId) {
+      try {
+        const textMessage = `🔔 *KHÁCH HÀNG MỚI ĐĂNG KÝ TƯ VẤN* 🔔\n\n` +
+          `👤 *Họ và tên:* ${submissionData.fullName}\n` +
+          `📞 *Số điện thoại:* \`${submissionData.phone}\`\n` +
+          `📧 *Email:* ${submissionData.email || "Không có"}\n` +
+          `💼 *Dịch vụ quan tâm:* ${submissionData.service}\n` +
+          `📝 *Lời nhắn:* ${submissionData.message || "Không có"}\n` +
+          `⏰ *Thời gian:* ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`;
+
+        await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: telegramChatId,
+            text: textMessage,
+            parse_mode: "Markdown",
+          }),
+        });
+      } catch (tgErr) {
+        console.error("Telegram notification error:", tgErr);
+      }
+    }
+
+    // 6. Send Zalo Webhook / Custom Notification (if WEBHOOK_NOTIFICATION_URL exists)
     const webhookUrl = process.env.WEBHOOK_NOTIFICATION_URL;
     if (webhookUrl) {
       try {
@@ -84,7 +111,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Cảm ơn bạn đã gửi thông tin liên hệ! Chuyên viên Sóc Sơn sẽ gọi lại trong 15 phút.",
+      message: "Cảm ơn bạn đã gửi thông tin liên hệ! Chuyên viên sẽ gọi lại tư vấn trong 15 phút.",
       data: submissionData,
     });
   } catch (error) {
