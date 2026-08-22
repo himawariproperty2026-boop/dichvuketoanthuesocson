@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
     // 5. Send Instant Zalo Bot Platform Notification (bot.zaloplatforms.com)
     const zaloBotToken = process.env.ZALO_BOT_TOKEN || "15841953902216267:mHnNxKmCdDaWQOIFASXIIqPamobUEFSYChnzTZhhcCuiPArjqGaOPxNdiNvCwZBB";
-    const zaloChatId = process.env.ZALO_CHAT_ID || lastDetectedZaloChatId;
+    const zaloChatId = process.env.ZALO_CHAT_ID || lastDetectedZaloChatId || "zgr-cac417836eef87b1defe";
     if (zaloBotToken && zaloChatId) {
       try {
         const textMessage = `🔔 *KHÁCH HÀNG MỚI ĐĂNG KÝ TƯ VẤN* 🔔\n\n` +
