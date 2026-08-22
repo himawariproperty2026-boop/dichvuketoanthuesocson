@@ -38,7 +38,7 @@ export const siteConfig = {
     messenger: "dichvuketoanthuesocson",
     email: "ngochoa621987@gmail.com",
     taxCode: "0111330444",
-    representative: "Nguyễn Thị Hoa",
+    representative: "Lê Thị Hoá",
     
     // Primary Headquarters in Trung Gia, Soc Son, Ha Noi
     address: "Số nhà 26, Đường 418, Phổ Nỷ, Xã Trung Giã, Thành phố Hà Nội",
