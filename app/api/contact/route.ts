@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     const cleanPhone = phone ? phone.replace(/[\s\.\-\(\)]/g, "") : "";
     if (!cleanPhone || !phoneRegex.test(cleanPhone)) {
       return NextResponse.json(
-        { success: false, error: "Số điện thoại không đúng định dạng (Ví dụ: 0987654321)." },
+        { success: false, error: "Số điện thoại không đúng định dạng (Ví dụ: 0979065067)." },
         { status: 400 }
       );
     }

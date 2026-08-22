@@ -12,9 +12,9 @@ import { StatCounter } from "@/components/StatCounter";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata = {
-  title: "Giới Thiệu Về Dịch Vụ Kế Toán Thuế Sóc Sơn - 10+ Năm Uy Tín",
+  title: "Giới Thiệu Về Dịch Vụ Kế Toán Thuế Sóc Sơn - 17+ Năm Uy Tín",
   description:
-    "Tìm hiểu tầm nhìn, sứ mệnh, đội ngũ nhân sự và năng lực chuyên môn 10+ năm kinh nghiệm của Dịch vụ Kế toán Thuế Sóc Sơn.",
+    "Tìm hiểu tầm nhìn, sứ mệnh, đội ngũ nhân sự và năng lực chuyên môn 17+ năm kinh nghiệm của Dịch vụ Kế toán Thuế Sóc Sơn - Minh Hoá Protax.",
 };
 
 export default function AboutPage() {
@@ -33,11 +33,11 @@ export default function AboutPage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
-              Giới Thiệu <span className="text-[#D7181F]">Kế Toán Thuế Sóc Sơn</span>
+              Giới Thiệu <span className="text-[#D7181F]">Minh Hoá Protax</span>
             </h1>
 
             <p className="mt-4 text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-              Hơn 10 năm đồng hành cùng hàng trăm hộ kinh doanh và doanh nghiệp tại Sóc Sơn, Mê Linh, Đông Anh. Uy tín - Chuyên nghiệp - Bảo mật.
+              Hơn 17 năm đồng hành cùng hàng trăm hộ kinh doanh và doanh nghiệp tại Sóc Sơn, Mê Linh, Đông Anh, Hà Nội. Uy tín - Chuyên nghiệp - Bảo mật.
             </p>
           </div>
         </section>

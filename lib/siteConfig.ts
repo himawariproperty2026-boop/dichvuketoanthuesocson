@@ -2,18 +2,21 @@
 // Website: dichvuketoanthuesocson.com.vn
 
 export const siteConfig = {
-  name: "Dịch vụ Kế toán Thuế Sóc Sơn",
-  companyName: "CÔNG TY TNHH TƯ VẤN KẾ TOÁN & THUẾ SÓC SƠN",
+  name: "Dịch vụ Kế toán Thuế Sóc Sơn - Minh Hoá Protax",
+  companyName: "CÔNG TY TNHH DỊCH VỤ DOANH NGHIỆP MINH HOÁ PROTAX",
   domain: "dichvuketoanthuesocson.com.vn",
   url: "https://dichvuketoanthuesocson.com.vn",
-  description: "Dịch vụ kế toán thuế trọn gói, thành lập doanh nghiệp, quyết toán thuế chuyên nghiệp, uy tín hàng đầu tại Sóc Sơn, Đông Anh, Mê Linh, Hà Nội.",
+  description: "Dịch vụ kế toán thuế trọn gói, thành lập công ty, thành lập hộ kinh doanh chuyên nghiệp, uy tín hàng đầu của Công ty TNHH Dịch Vụ Doanh Nghiệp Minh Hoá Protax tại Hà Nội & Sóc Sơn.",
   
   // Comprehensive SEO Keywords Dictionary
   seoKeywords: [
+    "Minh Hoá Protax",
+    "kế toán Minh Hoá Protax",
     "dịch vụ kế toán Sóc Sơn",
     "kế toán thuế Sóc Sơn",
     "thành lập công ty Sóc Sơn",
-    "thành lập doanh nghiệp Sóc Sơn",
+    "thành lập hộ kinh doanh Sóc Sơn",
+    "kế toán Trung Giã Sóc Sơn",
     "kế toán trọn gói Sóc Sơn",
     "báo cáo tài chính Sóc Sơn",
     "quyết toán thuế Sóc Sơn",
@@ -26,38 +29,36 @@ export const siteConfig = {
     "hoàn thuế GTGT Sóc Sơn",
     "thay đổi đăng ký kinh doanh Sóc Sơn",
     "kế toán hộ kinh doanh Sóc Sơn",
-    "chuyển đổi hộ kinh doanh sang công ty Sóc Sơn",
-    "dịch vụ kế toán giá rẻ Sóc Sơn",
     "kế toán thuế uy tín Hà Nội"
   ],
   contact: {
-    phone: "0987 654 321", // TODO: Thay bằng SĐT hotline thật
-    phoneDisplay: "0987.654.321",
-    zalo: "0987654321", // TODO: Thay bằng SĐT Zalo Official / cá nhân
-    messenger: "dichvuketoanthuesocson", // TODO: Thay bằng Fanpage ID/Username
-    email: "contact@dichvuketoanthuesocson.com.vn",
-    taxCode: "0109876543", // TODO: Thay bằng MST công ty thật
+    phone: "0979 065 067",
+    phoneDisplay: "0979.065.067",
+    zalo: "0979065067",
+    messenger: "dichvuketoanthuesocson",
+    email: "ngochoa621987@gmail.com",
+    taxCode: "0111330444",
+    representative: "Nguyễn Thị Hoa",
     
-    // Primary Headquarters in Soc Son
-    address: "Số 88, Đường Đa Phúc, Thị trấn Sóc Sơn, Huyện Sóc Sơn, Hà Nội",
-    googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3719.6738914876!2d105.84918231533664!3d21.24479998588307!2m3!1f0!f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313503b879c5222b%3A0xb35a0928db64b2d3!2zVGjhu4sgdHLhuqVuIFPDs2MgU8ahbiwgU8ahbiBUw6J5LCBIw6AgTuG7mWk!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s",
+    // Primary Headquarters in Trung Gia, Soc Son, Ha Noi
+    address: "Số nhà 26, Đường 418, Phổ Nỷ, Xã Trung Giã, Thành phố Hà Nội",
+    googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3717.3854124976!2d105.86411231533664!3d21.28679998588307!2m3!1f0!f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313503b879c5222b%3A0xb35a0928db64b2d3!2zVHLung5nIEdpw6MsIFPDs2MgU8ahbiwgSMOgIE7hu5lp!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s",
     workingHours: "Thứ 2 - Thứ 7: 08:00 - 17:30 (Hỗ trợ khẩn cấp 24/7)",
   },
 
   // Social Links
   social: {
-    facebook: "https://facebook.com/dichvuketoanthuesocson",
-    zaloPage: "https://zalo.me/0987654321",
+    facebook: "https://www.facebook.com/share/1CZwZSpzcc/?mibextid=wwXIfr",
+    zaloPage: "https://zalo.me/0979065067",
     youtube: "https://youtube.com/@ketoanthuesocson",
   },
 
-  // IMPORTANT: Statistics & Counter configuration
-  // TODO: Cập nhật số liệu thật trước khi launch, không để số mặc định khi lên production
+  // Statistics & Counter configuration (Official from Minh Hoá Protax)
   stats: [
-    { id: "clients", value: 350, suffix: "+", label: "Doanh nghiệp & Hộ kinh doanh tin tưởng", description: "Tại Sóc Sơn, Đông Anh & Mê Linh" },
-    { id: "experience", value: 10, suffix: "+", label: "Năm kinh nghiệm", description: "Trong lĩnh vực kế toán - thuế - pháp lý" },
-    { id: "satisfaction", value: 99, suffix: "%", label: "Khách hàng hài lòng", description: "Cam kết đồng hành & chịu trách nhiệm" },
-    { id: "experts", value: 15, suffix: "+", label: "Chuyên viên kế toán", description: "Am hiểu luật thuế & địa bàn Sóc Sơn" },
+    { id: "clients", value: 100, suffix: "+", label: "Doanh nghiệp & HKD đồng hành", description: "Tại Sóc Sơn, Đông Anh & Hà Nội" },
+    { id: "experience", value: 17, suffix: "+", label: "Năm kinh nghiệm", description: "Chuyên sâu kế toán - thuế & pháp lý" },
+    { id: "satisfaction", value: 100, suffix: "%", label: "Trách nhiệm hợp đồng", description: "Cam kết đúng hạn & bảo vệ số liệu" },
+    { id: "experts", value: 20, suffix: "+", label: "Chuyên viên kế toán", description: "Am hiểu sâu luật thuế địa phương" },
   ],
 
   // Navigation Menus
@@ -87,27 +88,27 @@ export const siteConfig = {
       slug: "ke-toan-thue-tron-goi",
       title: "Kế toán Thuế Trọn gói",
       shortDesc: "Thay thế hoàn toàn bộ máy kế toán nội bộ với chi phí chỉ bằng 1/5. Đảm bảo đúng luật, báo cáo chính xác, nộp bù đắp nghĩa vụ thuế đúng hạn.",
-      priceStarting: "1.500.000 đ/tháng",
+      priceStarting: "1.000.000 đ/tháng",
       popular: true,
       iconName: "Calculator",
       highlights: [
         "Kê khai thuế GTGT, TNCN, TNDN hàng tháng/quý",
         "Lập báo cáo tài chính & quyết toán thuế năm",
         "Tư vấn tối ưu chi phí hợp lý hợp lệ",
-        "Cam kết chịu trách nhiệm theo hợp đồng (* Cần xác nhận chính sách bồi thường phạt thật với chủ DN trước khi launch)"
+        "Cam kết chịu 100% trách nhiệm theo hợp đồng"
       ],
     },
     {
       slug: "thanh-lap-doanh-nghiep",
-      title: "Thành lập Doanh nghiệp Sóc Sơn",
+      title: "Thành lập Doanh nghiệp & HKD",
       shortDesc: "Tư vấn chọn mô hình công ty, lập hồ sơ trọn gói, giao GPKD & con dấu tận nơi tại Sóc Sơn trong 3-5 ngày làm việc.",
-      priceStarting: "1.500.000 đ",
+      priceStarting: "500.000 đ",
       popular: false,
       iconName: "Building2",
       highlights: [
-        "Cấp ĐKKD + Con dấu tròn công ty",
-        "Tặng chữ ký số & hóa đơn điện tử khởi tạo",
-        "Hỗ trợ mở tài khoản ngân hàng tận nơi",
+        "Thành lập Hộ kinh doanh: 500.000 đ/bộ",
+        "Thành lập Doanh nghiệp: 1.500.000 đ/bộ",
+        "Cấp GPKD + Con dấu tròn công ty tận nơi",
         "Miễn phí kê khai thuế ban đầu"
       ],
     },
@@ -129,13 +130,13 @@ export const siteConfig = {
       slug: "thay-doi-dang-ky-kinh-doanh",
       title: "Thay đổi Đăng ký Kinh doanh",
       shortDesc: "Thủ tục nhanh chóng khi thay đổi tên công ty, địa chỉ trụ sở, bổ sung ngành nghề, thay đổi người đại diện, tăng giảm vốn điều lệ.",
-      priceStarting: "800.000 đ",
+      priceStarting: "500.000 đ",
       popular: false,
       iconName: "FileEdit",
       highlights: [
+        "Thay đổi ĐKKD chỉ từ 500.000 đ",
         "Soạn thảo hồ sơ chuẩn trong 24h",
         "Nộp & nhận kết quả tận tay",
-        "Tư vấn nghĩa vụ thuế phát sinh khi thay đổi",
         "Cập nhật thông tin thuế tự động"
       ],
     },
@@ -169,20 +170,19 @@ export const siteConfig = {
     },
   ],
 
-  // IMPORTANT: Pricing Packages configuration
-  // TODO: Giá tạm - cần chủ doanh nghiệp xác nhận giá thật trước khi launch, không dùng khi lên production
+  // Official Pricing Packages configuration from Minh Hoá Protax
   pricingPackages: [
     {
       id: "co-ban",
       name: "GÓI CƠ BẢN",
-      target: "Dành cho doanh nghiệp nhỏ phát sinh dưới 20 hóa đơn/tháng",
-      price: "1.500.000",
+      target: "Dành cho Hộ kinh doanh & Doanh nghiệp phát sinh dưới 10 hóa đơn/tháng",
+      price: "1.000.000",
       period: "đ/tháng",
       recommended: false,
       features: [
-        "Dưới 20 hóa đơn/tháng",
-        "Ghi sổ kế toán",
-        "Khai thuế GTGT, TNCN",
+        "Dưới 10 hóa đơn/tháng",
+        "Ghi sổ kế toán chi tiết",
+        "Khai thuế GTGT, TNCN quý",
         "Báo cáo tài chính năm",
         "Quyết toán thuế TNDN",
         "Hỗ trợ qua Zalo, Email",
@@ -191,13 +191,13 @@ export const siteConfig = {
     {
       id: "chuyen-nghiep",
       name: "GÓI CHUYÊN NGHIỆP",
-      target: "Dành cho doanh nghiệp phát sinh từ 20-50 hóa đơn/tháng",
-      price: "2.500.000",
+      target: "Dành cho doanh nghiệp vừa phát sinh từ 10-50 hóa đơn/tháng",
+      price: "3.000.000",
       period: "đ/tháng",
       recommended: true,
       badge: "PHỔ BIẾN NHẤT",
       features: [
-        "20-50 hóa đơn/tháng",
+        "10-50 hóa đơn/tháng",
         "Tất cả gói Cơ bản",
         "Khai thuế TNDN quý",
         "Tư vấn tối ưu thuế",
@@ -207,13 +207,13 @@ export const siteConfig = {
     },
     {
       id: "doanh-nghiep",
-      name: "GÓI DOANH NGHIỆP",
-      target: "Dành cho doanh nghiệp phát sinh từ 50-100 hóa đơn/tháng",
-      price: "4.500.000",
+      name: "GÓI DOANH NGHIỆP LỚN",
+      target: "Dành cho doanh nghiệp sản xuất, KCN phát sinh trên 50 hóa đơn/tháng",
+      price: "Từ 5.000.000",
       period: "đ/tháng",
       recommended: false,
       features: [
-        "Từ 50-100 hóa đơn/tháng",
+        "Trên 50 hóa đơn/tháng (Sản xuất, KCN)",
         "Tất cả gói Chuyên nghiệp",
         "Kế toán trưởng phụ trách",
         "Báo cáo quản trị định kỳ",
@@ -235,20 +235,18 @@ export const siteConfig = {
         "Tư vấn pháp lý DN",
         "Lập kế hoạch thuế năm",
         "Hỗ trợ thanh tra thuế",
-        "Báo cáo hợp nhất",
-        "Tư vấn M&A",
+        "Báo cáo hợp nhất & M&A",
         "SLA cam kết riêng",
       ],
     },
   ],
 
-  // IMPORTANT: Add-on Services configuration
-  // TODO: Giá tạm - cần chủ doanh nghiệp xác nhận giá thật trước khi launch, không dùng khi lên production
+  // Official Add-on Services configuration
   addOnServices: [
-    { name: "Thành lập công ty trọn gói", price: "Từ 1.500.000 đ", note: "Cấp GPKD + Con dấu tận nơi Sóc Sơn" },
-    { name: "Thay đổi giấy phép đăng ký kinh doanh", price: "Từ 800.000 đ", note: "Đổi địa chỉ, tăng vốn, ngành nghề" },
-    { name: "Chữ ký số (Token) 3 năm", price: "Từ 1.500.000 đ", note: "Hỗ trợ đăng ký qua đối tác CA uy tín (VNPT, Viettel, BKAV...)" },
-    { name: "Hóa đơn điện tử khởi tạo (500 số)", price: "Từ 600.000 đ", note: "Hỗ trợ đăng ký qua đối tác phát hành uy tín" },
+    { name: "Thành lập Hộ kinh doanh trọn gói", price: "500.000 đ/bộ", note: "Cấp GPKD + Miễn phí thủ tục thuế ban đầu" },
+    { name: "Thành lập Doanh nghiệp trọn gói", price: "1.500.000 đ/bộ", note: "Cấp GPKD + Con dấu tròn tận nơi" },
+    { name: "Thay đổi giấy phép đăng ký kinh doanh", price: "Từ 500.000 đ", note: "Thay đổi địa chỉ, tên, tăng vốn, ngành nghề" },
+    { name: "Chữ ký số (Token) & Hóa đơn điện tử", price: "Theo gói đối tác", note: "Hỗ trợ đăng ký khởi tạo & tích hợp hệ thống" },
   ],
 
   // 6 Key Reasons Why Choose Us
