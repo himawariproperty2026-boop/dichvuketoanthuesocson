@@ -22,51 +22,66 @@ export default function PricingPage() {
   const comparisonMatrix = [
     {
       feature: "Số lượng hóa đơn chứng từ / tháng",
-      coBan: "Dưới 10 hóa đơn",
-      chuyenNghiep: "Từ 10 - 50 hóa đơn",
-      doanhNghiep: "Không giới hạn",
+      coBan: "Dưới 20 hóa đơn",
+      chuyenNghiep: "Từ 20 – 50 hóa đơn",
+      doanhNghiep: "Từ 50 – 100 hóa đơn",
+      premium: "Trên 100 hóa đơn (Đa chi nhánh)",
     },
     {
-      feature: "Kê khai thuế GTGT, TNCN quý",
+      feature: "Kê khai thuế GTGT, TNCN quý & BCTC",
       coBan: true,
       chuyenNghiep: true,
       doanhNghiep: true,
+      premium: true,
     },
     {
       feature: "Báo cáo tình hình sử dụng hóa đơn",
       coBan: true,
       chuyenNghiep: true,
       doanhNghiep: true,
+      premium: true,
     },
     {
       feature: "Lập sổ sách kế toán chi tiết",
       coBan: "Sổ tổng hợp",
-      chuyenNghiep: "Sổ chi tiết (Kho, TSCĐ, Thu/Chi)",
+      chuyenNghiep: "Sổ chi tiết (Kho, TSCĐ)",
       doanhNghiep: "Sổ chi tiết + Tính giá thành",
-    },
-    {
-      feature: "Lập Báo cáo tài chính & Quyết toán năm",
-      coBan: true,
-      chuyenNghiep: true,
-      doanhNghiep: true,
+      premium: "Báo cáo quản trị & BCTC hợp nhất",
     },
     {
       feature: "Giao nhận chứng từ tận nơi Sóc Sơn",
       coBan: "Gửi file / Nhận tại VP",
       chuyenNghiep: "Miễn phí nhận tận nơi",
       doanhNghiep: "Miễn phí nhận tận nơi",
+      premium: "Ưu tiên nhận tận nơi 24/7",
     },
     {
-      feature: "Giải trình khi cơ quan thuế kiểm tra",
+      feature: "Giải trình & Hỗ trợ thanh tra thuế",
       coBan: "Hỗ trợ số liệu kê khai",
       chuyenNghiep: "Trực tiếp giải trình",
       doanhNghiep: "Bảo vệ 100% khi thanh tra",
+      premium: "Đội ngũ chuyên gia & Pháp lý bảo vệ",
     },
     {
       feature: "Kế toán trưởng riêng phụ trách",
       coBan: false,
       chuyenNghiep: false,
       doanhNghiep: true,
+      premium: "KTT + Cố vấn riêng",
+    },
+    {
+      feature: "Tư vấn pháp lý DN, M&A & Thuế năm",
+      coBan: false,
+      chuyenNghiep: false,
+      doanhNghiep: false,
+      premium: true,
+    },
+    {
+      feature: "SLA cam kết riêng & Hỗ trợ VIP 24/7",
+      coBan: false,
+      chuyenNghiep: false,
+      doanhNghiep: "Ưu tiên xử lý",
+      premium: true,
     },
   ];
 
@@ -96,7 +111,7 @@ export default function PricingPage() {
           </div>
         </section>
 
-        {/* 3 Main Pricing Cards */}
+        {/* 4 Main Pricing Cards */}
         <section className="py-16 md:py-24 bg-white border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <SectionHeading
@@ -115,20 +130,21 @@ export default function PricingPage() {
 
         {/* Detailed Features Comparison Matrix */}
         <section className="py-16 bg-slate-50 border-b border-slate-200">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <SectionHeading
               subtitle="So sánh chi tiết"
               title="Bảng So Sánh Quyền Lợi Chi Tiết Giữa Các Gói"
             />
 
             <div className="mt-10 overflow-x-auto">
-              <table className="w-full bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft text-left border-collapse">
+              <table className="w-full bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft text-left border-collapse min-w-[700px]">
                 <thead>
                   <tr className="bg-[#04266F] text-white text-xs sm:text-sm">
-                    <th className="p-4 sm:p-5 font-bold w-1/3">Hạng mục so sánh</th>
+                    <th className="p-4 sm:p-5 font-bold w-1/4">Hạng mục so sánh</th>
                     <th className="p-4 sm:p-5 font-bold text-center">Gói Cơ Bản</th>
                     <th className="p-4 sm:p-5 font-bold text-center text-amber-300">Gói Chuyên Nghiệp ⭐</th>
-                    <th className="p-4 sm:p-5 font-bold text-center">Gói Doanh Nghiệp Lớn</th>
+                    <th className="p-4 sm:p-5 font-bold text-center">Gói Doanh Nghiệp</th>
+                    <th className="p-4 sm:p-5 font-bold text-center text-red-300">Gói Premium 👑</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200 text-xs sm:text-sm">
@@ -166,6 +182,17 @@ export default function PricingPage() {
                           )
                         ) : (
                           row.doanhNghiep
+                        )}
+                      </td>
+                      <td className="p-4 text-center font-bold text-slate-900 bg-amber-50/40">
+                        {typeof row.premium === "boolean" ? (
+                          row.premium ? (
+                            <Check className="w-5 h-5 text-[#D7181F] mx-auto stroke-[3]" />
+                          ) : (
+                            <span className="text-slate-300">—</span>
+                          )
+                        ) : (
+                          <span className="text-[#D7181F]">{row.premium}</span>
                         )}
                       </td>
                     </tr>
