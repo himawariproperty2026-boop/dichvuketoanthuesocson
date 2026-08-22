@@ -68,22 +68,47 @@ export async function POST(request: Request) {
     console.log("=== NEW CONTACT SUBMISSION RECEIVED ===");
     console.log(submissionData);
 
-    // 5. Send Instant Telegram Bot Notification (if TELEGRAM_BOT_TOKEN & TELEGRAM_CHAT_ID exist)
+    // 5. Send Instant Zalo OA Chatbot Notification (if ZALO_OA_ACCESS_TOKEN & ZALO_ADMIN_USER_ID exist)
+    const zaloToken = process.env.ZALO_OA_ACCESS_TOKEN;
+    const zaloUserId = process.env.ZALO_ADMIN_USER_ID;
+    if (zaloToken && zaloUserId) {
+      try {
+        const zaloMsg = `🔔 KHÁCH HÀNG MỚI ĐĂNG KÝ TƯ VẤN 🔔\n\n` +
+          `👤 Họ và tên: ${submissionData.fullName}\n` +
+          `📞 Số điện thoại: ${submissionData.phone}\n` +
+          `📧 Email: ${submissionData.email || "Không có"}\n` +
+          `💼 Dịch vụ: ${submissionData.service}\n` +
+          `📝 Lời nhắn: ${submissionData.message || "Không có"}\n` +
+          `⏰ Thời gian: ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`;
+
+        await fetch("https://openapi.zalo.me/v2.0/oa/message", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "access_token": zaloToken,
+          },
+          body: JSON.stringify({
+            recipient: { user_id: zaloUserId },
+            message: { text: zaloMsg },
+          }),
+        });
+      } catch (zaloErr) {
+        console.error("Zalo OA Notification error:", zaloErr);
+      }
+    }
+
+    // 6. Send Instant Telegram Bot Notification (if TELEGRAM_BOT_TOKEN & TELEGRAM_CHAT_ID exist)
     const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
     const telegramChatId = process.env.TELEGRAM_CHAT_ID;
     if (telegramToken && telegramChatId) {
       try {
-        const escapeHtml = (str: string) =>
-          str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
-        const textMessage =
-          `🔔 <b>KHÁCH HÀNG MỚI ĐĂNG KÝ TƯ VẤN</b> 🔔\n\n` +
-          `👤 <b>Họ và tên:</b> ${escapeHtml(submissionData.fullName)}\n` +
-          `📞 <b>Số điện thoại:</b> <code>${escapeHtml(submissionData.phone)}</code>\n` +
-          `📧 <b>Email:</b> ${escapeHtml(submissionData.email || "Không có")}\n` +
-          `💼 <b>Dịch vụ quan tâm:</b> ${escapeHtml(submissionData.service)}\n` +
-          `📝 <b>Lời nhắn:</b> ${escapeHtml(submissionData.message || "Không có")}\n` +
-          `⏰ <b>Thời gian:</b> ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`;
+        const textMessage = `🔔 *KHÁCH HÀNG MỚI ĐĂNG KÝ TƯ VẤN* 🔔\n\n` +
+          `👤 *Họ và tên:* ${submissionData.fullName}\n` +
+          `📞 *Số điện thoại:* \`${submissionData.phone}\`\n` +
+          `📧 *Email:* ${submissionData.email || "Không có"}\n` +
+          `💼 *Dịch vụ quan tâm:* ${submissionData.service}\n` +
+          `📝 *Lời nhắn:* ${submissionData.message || "Không có"}\n` +
+          `⏰ *Thời gian:* ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`;
 
         await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
           method: "POST",
@@ -91,7 +116,7 @@ export async function POST(request: Request) {
           body: JSON.stringify({
             chat_id: telegramChatId,
             text: textMessage,
-            parse_mode: "HTML",
+            parse_mode: "Markdown",
           }),
         });
       } catch (tgErr) {
