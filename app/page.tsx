@@ -88,9 +88,9 @@ export default async function HomePage() {
 
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.15] text-[#131313]">
                   Dịch Vụ Kế Toán Thuế & <br />
-                  Thành Lập Doanh Nghiệp <br />
-                  <span className="text-[#04266F]">Tại </span>
-                  <span className="text-[#D7181F]">Sóc Sơn</span>
+                  Thành Lập Doanh Nghiệp Sóc Sơn <br />
+                  <span className="text-[#04266F]">Uy Tín Tại </span>
+                  <span className="text-[#D7181F]">Hà Nội</span>
                 </h1>
 
                 <p className="text-slate-700 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl">
@@ -144,7 +144,7 @@ export default async function HomePage() {
                   {/* Floating Overlay Badge */}
                   <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl flex items-center justify-between">
                     <div>
-                      <div className="text-xs font-bold text-slate-500 uppercase">Phục vụ chính tại Sóc Sơn</div>
+                      <div className="text-xs font-bold text-slate-500 uppercase">Phục vụ chính tại Hà Nội</div>
                       <div className="text-sm font-extrabold text-slate-900 mt-0.5">
                         Đa Phúc, Phủ Lỗ, Nội Bài, Kim Anh, Đông Anh
                       </div>
