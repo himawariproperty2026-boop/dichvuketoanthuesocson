@@ -75,7 +75,7 @@ export const ContactPopup: React.FC = () => {
                 🎁
               </div>
               <h3 className="text-xl font-black text-slate-900 leading-tight">
-                Khoan đã, <span className="text-[#D7181F]">dừng đi vội!</span>
+                Khoan đã, <span className="text-[#D7181F]">đừng đi vội!</span>
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed mt-1.5 font-medium">
                 Đăng ký tư vấn ngay hôm nay để nhận ưu đãi đặc biệt:
