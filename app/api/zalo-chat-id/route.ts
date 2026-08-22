@@ -26,7 +26,8 @@ export async function GET() {
 
     return NextResponse.json({
       success: false,
-      message: "Chưa tìm thấy tin nhắn mới. Vui lòng mở Zalo Bot (https://bot.zaloplatforms.com/groups/invite/bot.DTyrkYnP) và gửi 1 tin nhắn bất kỳ (Ví dụ: Hi), sau đó tải lại trang này!",
+      message: "Chưa tìm thấy tin nhắn từ Nhóm Zalo. Vui lòng bấm mở link Zalo Bot (https://bot.zaloplatforms.com/groups/invite/bot.DTyrkYnP) để THÊM BOT VÀO NHÓM ZALO và gõ 1 tin nhắn (Ví dụ: Hi), sau đó tải lại trang này (https://dichvuketoanthuesocson.vercel.app/api/zalo-chat-id)!",
+      vercel_url: "https://dichvuketoanthuesocson.vercel.app/api/zalo-chat-id",
       rawResponse: data,
     });
   } catch (error: any) {
