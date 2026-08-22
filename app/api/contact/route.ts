@@ -172,7 +172,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Cảm ơn bạn đã gửi thông tin liên hệ! Chuyên viên sẽ gọi lại tư vấn trong 15 phút.",
+      message: "Cảm ơn bạn đã gửi thông tin liên hệ! Chuyên viên kế toán trưởng sẽ gọi lại tư vấn trong 15 phút.",
       data: submissionData,
     });
   } catch (error) {
