@@ -142,14 +142,14 @@ export default async function HomePage() {
                   />
 
                   {/* Floating Overlay Badge */}
-                  <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#D7181F] animate-pulse shrink-0" />
-                      <div className="text-sm sm:text-base font-black text-[#04266F] uppercase tracking-wide">
+                  <div className="absolute bottom-4 sm:bottom-6 left-3 sm:left-6 right-3 sm:right-6 p-3 sm:p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                      <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#D7181F] animate-pulse shrink-0" />
+                      <div className="text-xs sm:text-sm font-black text-[#04266F] uppercase tracking-wide whitespace-nowrap">
                         PHỤC VỤ CHÍNH TẠI <span className="text-[#D7181F]">HÀ NỘI</span>
                       </div>
                     </div>
-                    <div className="px-3.5 py-1.5 rounded-xl bg-[#D7181F] text-white text-xs sm:text-sm font-black shrink-0 shadow-xs">
+                    <div className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl bg-[#D7181F] text-white text-[10px] sm:text-xs font-black shrink-0 shadow-xs whitespace-nowrap">
                       10+ NĂM KINH NGHIỆM
                     </div>
                   </div>
