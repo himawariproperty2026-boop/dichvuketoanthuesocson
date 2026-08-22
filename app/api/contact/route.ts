@@ -68,47 +68,22 @@ export async function POST(request: Request) {
     console.log("=== NEW CONTACT SUBMISSION RECEIVED ===");
     console.log(submissionData);
 
-    // 5. Send Instant Zalo OA Bot Notification (if ZALO_OA_ACCESS_TOKEN & ZALO_ADMIN_USER_ID exist)
-    const zaloAccessToken = process.env.ZALO_OA_ACCESS_TOKEN;
-    const zaloAdminUserId = process.env.ZALO_ADMIN_USER_ID;
-    if (zaloAccessToken && zaloAdminUserId) {
-      try {
-        const zaloMessageText = `🔔 KHÁCH HÀNG MỚI ĐĂNG KÝ TƯ VẤN 🔔\n\n` +
-          `👤 Họ và tên: ${submissionData.fullName}\n` +
-          `📞 Số điện thoại: ${submissionData.phone}\n` +
-          `📧 Email: ${submissionData.email || "Không có"}\n` +
-          `💼 Dịch vụ quan tâm: ${submissionData.service}\n` +
-          `📝 Lời nhắn: ${submissionData.message || "Không có"}\n` +
-          `⏰ Thời gian: ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`;
-
-        await fetch("https://openapi.zalo.me/v3.0/oa/message/cs", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "access_token": zaloAccessToken,
-          },
-          body: JSON.stringify({
-            recipient: { user_id: zaloAdminUserId },
-            message: { text: zaloMessageText },
-          }),
-        });
-      } catch (zaloErr) {
-        console.error("Zalo OA Bot notification error:", zaloErr);
-      }
-    }
-
-    // 6. Send Instant Telegram Bot Notification (Optional fallback)
+    // 5. Send Instant Telegram Bot Notification (if TELEGRAM_BOT_TOKEN & TELEGRAM_CHAT_ID exist)
     const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
     const telegramChatId = process.env.TELEGRAM_CHAT_ID;
     if (telegramToken && telegramChatId) {
       try {
-        const textMessage = `🔔 *KHÁCH HÀNG MỚI ĐĂNG KÝ TƯ VẤN* 🔔\n\n` +
-          `👤 *Họ và tên:* ${submissionData.fullName}\n` +
-          `📞 *Số điện thoại:* \`${submissionData.phone}\`\n` +
-          `📧 *Email:* ${submissionData.email || "Không có"}\n` +
-          `💼 *Dịch vụ quan tâm:* ${submissionData.service}\n` +
-          `📝 *Lời nhắn:* ${submissionData.message || "Không có"}\n` +
-          `⏰ *Thời gian:* ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`;
+        const escapeHtml = (str: string) =>
+          str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        const textMessage =
+          `🔔 <b>KHÁCH HÀNG MỚI ĐĂNG KÝ TƯ VẤN</b> 🔔\n\n` +
+          `👤 <b>Họ và tên:</b> ${escapeHtml(submissionData.fullName)}\n` +
+          `📞 <b>Số điện thoại:</b> <code>${escapeHtml(submissionData.phone)}</code>\n` +
+          `📧 <b>Email:</b> ${escapeHtml(submissionData.email || "Không có")}\n` +
+          `💼 <b>Dịch vụ quan tâm:</b> ${escapeHtml(submissionData.service)}\n` +
+          `📝 <b>Lời nhắn:</b> ${escapeHtml(submissionData.message || "Không có")}\n` +
+          `⏰ <b>Thời gian:</b> ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`;
 
         await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
           method: "POST",
@@ -116,7 +91,7 @@ export async function POST(request: Request) {
           body: JSON.stringify({
             chat_id: telegramChatId,
             text: textMessage,
-            parse_mode: "Markdown",
+            parse_mode: "HTML",
           }),
         });
       } catch (tgErr) {
@@ -124,26 +99,17 @@ export async function POST(request: Request) {
       }
     }
 
-    // 7. Send Zalo Chatbot / Custom Webhook Notification (if ZALO_WEBHOOK_URL or WEBHOOK_NOTIFICATION_URL exists)
-    const webhookUrl = process.env.ZALO_WEBHOOK_URL || process.env.WEBHOOK_NOTIFICATION_URL;
+    // 6. Send Zalo Webhook / Custom Notification (if WEBHOOK_NOTIFICATION_URL exists)
+    const webhookUrl = process.env.WEBHOOK_NOTIFICATION_URL;
     if (webhookUrl) {
       try {
         await fetch(webhookUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            event_name: "new_lead",
-            phone: submissionData.phone,
-            fullName: submissionData.fullName,
-            email: submissionData.email,
-            service: submissionData.service,
-            message: submissionData.message,
-            createdAt: submissionData.createdAt,
-            note: `Khách hàng ${submissionData.fullName} vừa đăng ký ${submissionData.service}. SĐT: ${submissionData.phone}`,
-          }),
+          body: JSON.stringify(submissionData),
         });
       } catch (webhookErr) {
-        console.error("Zalo Webhook notification failed:", webhookErr);
+        console.error("Webhook notification failed:", webhookErr);
       }
     }
 
