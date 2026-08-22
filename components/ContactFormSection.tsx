@@ -34,7 +34,7 @@ export const ContactFormSection: React.FC = () => {
       const data = await res.json();
 
       if (data.success) {
-        setSuccessMsg(data.message || "Cảm ơn bạn! Thông tin đã được gửi thành công. Chuyên viên kế toán trưởng sẽ gọi lại tư vấn trong 15 phút.");
+        setSuccessMsg(data.message || "Cảm ơn bạn! Thông tin đăng ký đã được ghi nhận thành công. Chuyên viên kế toán trưởng sẽ gọi lại tư vấn cho bạn trong 15 phút.");
         setFormData({
           fullName: "",
           phone: "",
