@@ -68,36 +68,7 @@ export async function POST(request: Request) {
     console.log("=== NEW CONTACT SUBMISSION RECEIVED ===");
     console.log(submissionData);
 
-    // 5. Send Instant Zalo OA Chatbot Notification (if ZALO_OA_ACCESS_TOKEN & ZALO_ADMIN_USER_ID exist)
-    const zaloToken = process.env.ZALO_OA_ACCESS_TOKEN;
-    const zaloUserId = process.env.ZALO_ADMIN_USER_ID;
-    if (zaloToken && zaloUserId) {
-      try {
-        const zaloMsg = `🔔 KHÁCH HÀNG MỚI ĐĂNG KÝ TƯ VẤN 🔔\n\n` +
-          `👤 Họ và tên: ${submissionData.fullName}\n` +
-          `📞 Số điện thoại: ${submissionData.phone}\n` +
-          `📧 Email: ${submissionData.email || "Không có"}\n` +
-          `💼 Dịch vụ: ${submissionData.service}\n` +
-          `📝 Lời nhắn: ${submissionData.message || "Không có"}\n` +
-          `⏰ Thời gian: ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`;
-
-        await fetch("https://openapi.zalo.me/v2.0/oa/message", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "access_token": zaloToken,
-          },
-          body: JSON.stringify({
-            recipient: { user_id: zaloUserId },
-            message: { text: zaloMsg },
-          }),
-        });
-      } catch (zaloErr) {
-        console.error("Zalo OA Notification error:", zaloErr);
-      }
-    }
-
-    // 6. Send Instant Telegram Bot Notification (if TELEGRAM_BOT_TOKEN & TELEGRAM_CHAT_ID exist)
+    // 5. Send Instant Telegram Bot Notification (if TELEGRAM_BOT_TOKEN & TELEGRAM_CHAT_ID exist)
     const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
     const telegramChatId = process.env.TELEGRAM_CHAT_ID;
     if (telegramToken && telegramChatId) {
@@ -124,17 +95,50 @@ export async function POST(request: Request) {
       }
     }
 
-    // 6. Send Zalo Webhook / Custom Notification (if WEBHOOK_NOTIFICATION_URL exists)
-    const webhookUrl = process.env.WEBHOOK_NOTIFICATION_URL;
+    // 6. Send Zalo OA Platform Chatbot Notification (if ZALO_OA_ACCESS_TOKEN & ZALO_RECEIVER_ID exist)
+    const zaloAccessToken = process.env.ZALO_OA_ACCESS_TOKEN;
+    const zaloReceiverId = process.env.ZALO_RECEIVER_ID;
+    if (zaloAccessToken && zaloReceiverId) {
+      try {
+        const zaloMessageText = `🔔 KHÁCH HÀNG MỚI ĐĂNG KÝ TƯ VẤN 🔔\n\n` +
+          `👤 Họ và tên: ${submissionData.fullName}\n` +
+          `📞 Số điện thoại: ${submissionData.phone}\n` +
+          `📧 Email: ${submissionData.email || "Không có"}\n` +
+          `💼 Dịch vụ quan tâm: ${submissionData.service}\n` +
+          `📝 Lời nhắn: ${submissionData.message || "Không có"}\n` +
+          `⏰ Thời gian: ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`;
+
+        await fetch("https://openapi.zalo.me/v3.0/oa/message/transaction", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "access_token": zaloAccessToken,
+          },
+          body: JSON.stringify({
+            recipient: { user_id: zaloReceiverId },
+            message: { text: zaloMessageText },
+          }),
+        });
+      } catch (zaloErr) {
+        console.error("Zalo OA API notification error:", zaloErr);
+      }
+    }
+
+    // 7. Send Zalo Chatbot Platform Webhook (Ahachat / Fchat / Botcake / n8n / Custom Webhook)
+    const webhookUrl = process.env.ZALO_WEBHOOK_URL || process.env.WEBHOOK_NOTIFICATION_URL;
     if (webhookUrl) {
       try {
         await fetch(webhookUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(submissionData),
+          body: JSON.stringify({
+            event_name: "new_lead_registration",
+            source: "MinhHoaProtaxWebsite",
+            lead: submissionData,
+          }),
         });
       } catch (webhookErr) {
-        console.error("Webhook notification failed:", webhookErr);
+        console.error("Zalo Webhook notification failed:", webhookErr);
       }
     }
 
