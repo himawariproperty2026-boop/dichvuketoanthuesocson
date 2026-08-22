@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X, Send, Phone, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { X, Gift, CheckCircle2 } from "lucide-react";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const ContactPopup: React.FC = () => {
@@ -37,9 +37,9 @@ export const ContactPopup: React.FC = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          fullName: fullName || "Khách Hàng Popup",
+          fullName: fullName || "Khách Hàng Popup Ưu Đãi",
           phone,
-          service: "Nhận báo giá nhanh 8s",
+          service: "Đăng ký nhận ưu đãi 24h",
           website_url,
         }),
       });
@@ -69,20 +69,42 @@ export const ContactPopup: React.FC = () => {
 
         {!submitted ? (
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-[#D7181F] text-xs font-bold border border-red-200">
-              <ShieldCheck className="w-4 h-4" />
-              <span>Tư vấn miễn phí tại Sóc Sơn</span>
+            {/* Gift Icon & Header */}
+            <div className="text-center pt-1">
+              <div className="w-12 h-12 rounded-2xl bg-red-50 text-[#D7181F] border border-red-200 flex items-center justify-center mx-auto text-2xl mb-3 shadow-xs">
+                🎁
+              </div>
+              <h3 className="text-xl font-black text-slate-900 leading-tight">
+                Khoan đã, <span className="text-[#D7181F]">dừng đi vội!</span>
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed mt-1.5 font-medium">
+                Đăng ký tư vấn ngay hôm nay để nhận ưu đãi đặc biệt:
+              </p>
             </div>
 
-            <h3 className="text-xl font-black text-slate-900 leading-tight">
-              Nhận Báo Giá Kế Toán Thuế Trọn Gói Trong 15 Phút
-            </h3>
+            {/* Checklist items styled to match Image 1 design language */}
+            <div className="space-y-2 py-1">
+              <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-red-50/60 border border-red-200 text-xs font-semibold text-slate-800">
+                <span className="w-5 h-5 rounded-full bg-[#D7181F] text-white flex items-center justify-center shrink-0 font-bold text-[10px]">
+                  ✓
+                </span>
+                <span>Giảm 10% phí dịch vụ tháng đầu</span>
+              </div>
+              <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-red-50/60 border border-red-200 text-xs font-semibold text-slate-800">
+                <span className="w-5 h-5 rounded-full bg-[#D7181F] text-white flex items-center justify-center shrink-0 font-bold text-[10px]">
+                  ✓
+                </span>
+                <span>Tặng Checklist thành lập công ty 2026 (PDF)</span>
+              </div>
+              <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-red-50/60 border border-red-200 text-xs font-semibold text-slate-800">
+                <span className="w-5 h-5 rounded-full bg-[#D7181F] text-white flex items-center justify-center shrink-0 font-bold text-[10px]">
+                  ✓
+                </span>
+                <span>Tư vấn 1-1 với chuyên gia 10+ năm kinh nghiệm</span>
+              </div>
+            </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Để lại số điện thoại, Kế toán trưởng Sóc Sơn sẽ gọi lại báo giá trọn gói miễn phí không phát sinh chi phí ẩn.
-            </p>
-
-            <form onSubmit={handleSubmit} className="space-y-3 pt-2">
+            <form onSubmit={handleSubmit} className="space-y-3 pt-1">
               <input
                 type="text"
                 name="website_url"
@@ -94,7 +116,7 @@ export const ContactPopup: React.FC = () => {
 
               <input
                 type="text"
-                placeholder="Họ và tên của bạn"
+                placeholder="Họ và tên *"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs sm:text-sm focus:outline-none focus:border-[#D7181F]"
@@ -103,7 +125,7 @@ export const ContactPopup: React.FC = () => {
               <input
                 type="tel"
                 required
-                placeholder="Số điện thoại / Zalo *"
+                placeholder="Số điện thoại *"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs sm:text-sm focus:outline-none focus:border-[#D7181F]"
@@ -113,10 +135,15 @@ export const ContactPopup: React.FC = () => {
                 type="submit"
                 className="w-full py-3 rounded-xl bg-[#D7181F] hover:bg-[#B81117] text-white font-extrabold text-xs tracking-wide shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Send className="w-4 h-4" />
-                <span>GỬI YÊU CẦU BÁO GIÁ NGAY</span>
+                <Gift className="w-4 h-4" />
+                <span>🎁 NHẬN ƯU ĐÃI NGAY</span>
               </button>
             </form>
+
+            <p className="text-[11px] text-center text-[#D7181F] font-extrabold flex items-center justify-center gap-1 pt-1">
+              <span>⚡</span>
+              <span>Ưu đãi chỉ có hiệu lực trong 24h</span>
+            </p>
           </div>
         ) : (
           <div className="py-8 text-center space-y-3">
@@ -125,7 +152,7 @@ export const ContactPopup: React.FC = () => {
             </div>
             <h4 className="font-black text-slate-900 text-lg">Đã Gửi Thành Công!</h4>
             <p className="text-xs text-slate-600">
-              Chuyên viên Sóc Sơn sẽ gọi lại cho bạn qua số {phone} trong 15 phút.
+              Chuyên viên Sóc Sơn sẽ gọi lại cho bạn qua số {phone} trong 15 phút để gửi tặng ưu đãi.
             </p>
           </div>
         )}
@@ -133,3 +160,4 @@ export const ContactPopup: React.FC = () => {
     </div>
   );
 };
+
