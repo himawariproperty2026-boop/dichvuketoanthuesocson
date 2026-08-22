@@ -9,6 +9,8 @@ import { FloatingButtons } from "@/components/FloatingButtons";
 import { ContactPopup } from "@/components/ContactPopup";
 import { SectionHeading } from "@/components/SectionHeading";
 import { PricingCard } from "@/components/PricingCard";
+import { CostComparisonSection } from "@/components/CostComparisonSection";
+import { IncludedFeaturesSection } from "@/components/IncludedFeaturesSection";
 import { ContactFormSection } from "@/components/ContactFormSection";
 import { siteConfig } from "@/lib/siteConfig";
 
@@ -202,6 +204,12 @@ export default function PricingPage() {
             </div>
           </div>
         </section>
+
+        {/* Cost Comparison vs Internal Accountant Section */}
+        <CostComparisonSection />
+
+        {/* All Packages Included Core Features Section */}
+        <IncludedFeaturesSection />
 
         {/* Add-on Services Table */}
         <section className="py-16 bg-white border-b border-slate-200">
