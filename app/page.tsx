@@ -127,7 +127,7 @@ export default async function HomePage() {
                     href="/bang-gia"
                     className="w-full sm:w-auto px-7 py-3.5 sm:py-4 rounded-2xl bg-white border-2 border-[#D7181F] text-[#D7181F] hover:bg-red-50 font-extrabold text-xs sm:text-base text-center transition-all"
                   >
-                    Xem Bảng Giá 3 Gói
+                    Xem Bảng Giá 4 Gói
                   </Link>
                 </div>
               </div>

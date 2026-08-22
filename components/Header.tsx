@@ -279,7 +279,7 @@ export const Header: React.FC = () => {
               onClick={() => setMobileMenuOpen(false)}
               className="block p-3 rounded-xl text-base font-extrabold text-slate-900 hover:bg-red-50 hover:text-[#D7181F] transition-colors"
             >
-              Bảng giá 3 gói
+              Bảng giá 4 gói
             </Link>
             <Link
               href="/blog"
