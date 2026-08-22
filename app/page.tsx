@@ -350,7 +350,7 @@ export default async function HomePage() {
               description="Báo giá minh bạch ngay từ đầu, không phí ẩn. Miễn phí nhận chứng từ tận nhà tại Sóc Sơn."
             />
 
-            <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
               {siteConfig.pricingPackages.map((pkg) => (
                 <PricingCard key={pkg.id} pkg={pkg} />
               ))}

@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { Check, Zap, ArrowRight } from "lucide-react";
+import { Check, Zap, ArrowRight, Phone } from "lucide-react";
+import { siteConfig } from "@/lib/siteConfig";
 
 interface PricingPackage {
   id: string;
@@ -10,6 +11,7 @@ interface PricingPackage {
   period: string;
   recommended: boolean;
   badge?: string;
+  buttonText?: string;
   features: string[];
 }
 
@@ -18,9 +20,11 @@ interface PricingCardProps {
 }
 
 export const PricingCard: React.FC<PricingCardProps> = ({ pkg }) => {
+  const isContactPrice = pkg.price.toLowerCase().includes("liên hệ");
+
   return (
     <div
-      className={`rounded-3xl p-7 flex flex-col justify-between transition-all duration-300 relative ${
+      className={`rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 relative ${
         pkg.recommended
           ? "bg-white border-2 border-[#D7181F] shadow-2xl scale-105 z-10"
           : "bg-white border border-slate-200 shadow-soft hover:shadow-xl hover:border-slate-300"
@@ -42,8 +46,12 @@ export const PricingCard: React.FC<PricingCardProps> = ({ pkg }) => {
             {pkg.target}
           </p>
 
-          <div className="mt-4 flex items-baseline justify-center gap-1">
-            <span className="text-3xl sm:text-4xl font-black text-[#D7181F]">
+          <div className="mt-4 flex flex-col sm:flex-row items-baseline justify-center gap-1">
+            <span
+              className={`${
+                isContactPrice ? "text-2xl sm:text-3xl" : "text-3xl sm:text-4xl"
+              } font-black text-[#D7181F]`}
+            >
               {pkg.price}
             </span>
             <span className="text-xs font-bold text-slate-500">{pkg.period}</span>
@@ -63,20 +71,29 @@ export const PricingCard: React.FC<PricingCardProps> = ({ pkg }) => {
         </ul>
       </div>
 
-      {/* Button CTA (Red Solid for Recommended, Red Outline for others as in Screenshot 2) */}
+      {/* Button CTA */}
       <div className="pt-4 border-t border-slate-100">
         <Link
-          href={`/lien-he?package=${pkg.id}`}
+          href={
+            isContactPrice
+              ? `tel:${siteConfig.contact.phone.replace(/\s+/g, "")}`
+              : `/lien-he?package=${pkg.id}`
+          }
           className={`w-full py-3.5 rounded-xl font-extrabold text-xs tracking-wide flex items-center justify-center gap-2 transition-all cursor-pointer ${
             pkg.recommended
               ? "bg-[#D7181F] hover:bg-[#B81117] text-white shadow-md hover:shadow-lg"
               : "bg-white border-2 border-[#D7181F] text-[#D7181F] hover:bg-red-50"
           }`}
         >
-          <span>Đăng ký gói này</span>
-          <ArrowRight className="w-4 h-4" />
+          <span>{pkg.buttonText || "Đăng ký gói này"}</span>
+          {isContactPrice ? (
+            <Phone className="w-4 h-4" />
+          ) : (
+            <ArrowRight className="w-4 h-4" />
+          )}
         </Link>
       </div>
     </div>
   );
 };
+

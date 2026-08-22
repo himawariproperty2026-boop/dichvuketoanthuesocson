@@ -101,11 +101,11 @@ export default function PricingPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <SectionHeading
               subtitle="Lựa chọn gói dịch vụ"
-              title="3 Gói Dịch Vụ Kế Toán Thuế Phổ Biến"
+              title="4 Gói Dịch Vụ Kế Toán Thuế Phổ Biến"
               description="Phù hợp với từng quy mô hộ kinh doanh và công ty vừa & nhỏ"
             />
 
-            <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
               {siteConfig.pricingPackages.map((pkg) => (
                 <PricingCard key={pkg.id} pkg={pkg} />
               ))}
