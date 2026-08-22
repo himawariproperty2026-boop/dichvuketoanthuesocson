@@ -88,9 +88,9 @@ export default async function HomePage() {
 
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.15] text-[#131313]">
                   DỊCH VỤ KẾ TOÁN THUẾ & <br />
-                  THÀNH LẬP DOANH NGHIỆP{" "}
-                  <span className="text-[#04266F]">UY TÍN TẠI </span>
-                  <span className="text-[#D7181F]">SÓC SƠN HÀ NỘI</span>
+                  THÀNH LẬP DOANH NGHIỆP <br />
+                  <span className="text-[#D7181F]">UY TÍN </span>
+                  <span className="text-[#04266F]">TẠI SÓC SƠN HÀ NỘI</span>
                 </h1>
 
                 <p className="text-slate-700 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl">
