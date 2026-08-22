@@ -34,7 +34,13 @@ export const ContactFormSection: React.FC = () => {
       const data = await res.json();
 
       if (data.success) {
-        setSuccessMsg(data.message || "Cảm ơn bạn! Chúng tôi sẽ gọi lại ngay.");
+        setSuccessMsg("Đã ghi nhận thông tin! Đang tự động kết nối mở ứng dụng Zalo 0979 065 067...");
+
+        // Auto open Zalo chat 0979065067
+        setTimeout(() => {
+          window.open(siteConfig.social.zaloPage, "_blank");
+        }, 600);
+
         setFormData({
           fullName: "",
           phone: "",
@@ -131,9 +137,19 @@ export const ContactFormSection: React.FC = () => {
           />
 
           {successMsg && (
-            <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-semibold flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-              <span>{successMsg}</span>
+            <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm font-semibold space-y-2">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                <span>{successMsg}</span>
+              </div>
+              <a
+                href={siteConfig.social.zaloPage}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-sm transition-all"
+              >
+                <span>💬 Bấm VÀO ĐÂY ĐỂ TRỰC TIẾP CHAT ZALO (0979 065 067)</span>
+              </a>
             </div>
           )}
 
