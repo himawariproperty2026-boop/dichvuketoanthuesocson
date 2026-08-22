@@ -68,7 +68,34 @@ export async function POST(request: Request) {
     console.log("=== NEW CONTACT SUBMISSION RECEIVED ===");
     console.log(submissionData);
 
-    // 5. Send Instant Telegram Bot Notification (if TELEGRAM_BOT_TOKEN & TELEGRAM_CHAT_ID exist)
+    // 5. Send Instant Zalo Bot Platform Notification (bot.zaloplatforms.com)
+    const zaloBotToken = process.env.ZALO_BOT_TOKEN || "15841953902216267:mHnNxKmCdDaWQOIFASXIIqPamobUEFSYChnzTZhhcCuiPArjqGaOPxNdiNvCwZBB";
+    const zaloChatId = process.env.ZALO_CHAT_ID;
+    if (zaloBotToken && zaloChatId) {
+      try {
+        const textMessage = `🔔 *KHÁCH HÀNG MỚI ĐĂNG KÝ TƯ VẤN* 🔔\n\n` +
+          `👤 *Họ và tên:* ${submissionData.fullName}\n` +
+          `📞 *Số điện thoại:* \`${submissionData.phone}\`\n` +
+          `📧 *Email:* ${submissionData.email || "Không có"}\n` +
+          `💼 *Dịch vụ quan tâm:* ${submissionData.service}\n` +
+          `📝 *Lời nhắn:* ${submissionData.message || "Không có"}\n` +
+          `⏰ *Thời gian:* ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`;
+
+        await fetch(`https://bot-api.zaloplatforms.com/bot${zaloBotToken}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: zaloChatId,
+            text: textMessage,
+            parse_mode: "markdown",
+          }),
+        });
+      } catch (zaloBotErr) {
+        console.error("Zalo Bot notification error:", zaloBotErr);
+      }
+    }
+
+    // 6. Send Instant Telegram Bot Notification (if TELEGRAM_BOT_TOKEN & TELEGRAM_CHAT_ID exist)
     const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
     const telegramChatId = process.env.TELEGRAM_CHAT_ID;
     if (telegramToken && telegramChatId) {
