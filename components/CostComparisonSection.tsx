@@ -19,7 +19,7 @@ export const CostComparisonSection: React.FC = () => {
     "Phần mềm chuyên nghiệp đã bao gồm",
     "Không tốn không gian làm việc",
     "Cập nhật quy định liên tục",
-    "Đội ngũ chuyên gia 10+ năm kinh nghiệm",
+    "Đội ngũ chuyên gia 17+ năm kinh nghiệm",
     "Cam kết đúng hạn 100%, chịu trách nhiệm pháp lý",
   ];
 

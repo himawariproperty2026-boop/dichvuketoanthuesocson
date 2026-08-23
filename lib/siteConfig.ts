@@ -253,7 +253,7 @@ export const siteConfig = {
   reasons: [
     {
       title: "Chuyên môn sâu & Am hiểu Sóc Sơn",
-      desc: "Hơn 10 năm hoạt động tại Sóc Sơn, thông thạo quy trình làm việc với Chi cục Thuế và cơ quan quản lý trên địa bàn.",
+      desc: "Hơn 17 năm hoạt động tại Sóc Sơn, thông thạo quy trình làm việc với Chi cục Thuế và cơ quan quản lý trên địa bàn.",
       icon: "Award"
     },
     {
