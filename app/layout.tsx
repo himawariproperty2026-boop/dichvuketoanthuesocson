@@ -33,6 +33,14 @@ export const metadata: Metadata = {
     email: true,
   },
   metadataBase: new URL(siteConfig.url),
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+    ],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
   openGraph: {
     title: `${siteConfig.name} - Uy Tín, Trọn Gói tại Sóc Sơn`,
     description: siteConfig.description,
