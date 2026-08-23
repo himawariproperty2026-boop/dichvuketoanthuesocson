@@ -136,7 +136,7 @@ export default async function HomePage() {
               <div className="lg:col-span-5 relative">
                 <div className="rounded-3xl overflow-hidden bg-white border border-slate-200 p-3 shadow-2xl relative">
                   <img
-                    src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1000&auto=format&fit=crop"
+                    src="/hero-banner.png"
                     alt="Dịch vụ kế toán thuế Sóc Sơn"
                     className="w-full h-80 sm:h-96 object-cover rounded-2xl"
                   />

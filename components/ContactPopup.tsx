@@ -48,11 +48,8 @@ export const ContactPopup: React.FC = () => {
     } finally {
       setSubmitted(true);
       setTimeout(() => {
-        window.open(siteConfig.social.zaloPage, "_blank");
-      }, 500);
-      setTimeout(() => {
         handleClose();
-      }, 4000);
+      }, 2500);
     }
   };
 
@@ -103,7 +100,7 @@ export const ContactPopup: React.FC = () => {
                 <span className="w-5 h-5 rounded-full bg-[#D7181F] text-white flex items-center justify-center shrink-0 font-bold text-[10px]">
                   ✓
                 </span>
-                <span>Tư vấn 1-1 với chuyên gia 17+ năm kinh nghiệm</span>
+                <span>Tư vấn 1-1 với chuyên gia 10+ năm kinh nghiệm</span>
               </div>
             </div>
 
@@ -149,22 +146,14 @@ export const ContactPopup: React.FC = () => {
             </p>
           </div>
         ) : (
-          <div className="py-6 text-center space-y-3">
+          <div className="py-8 text-center space-y-3">
             <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-6 h-6" />
             </div>
-            <h4 className="font-black text-slate-900 text-lg">Đã Đăng Ký Thành Công!</h4>
+            <h4 className="font-black text-slate-900 text-lg">Đã Gửi Thành Công!</h4>
             <p className="text-xs text-slate-600">
-              Đang tự động chuyển hướng mở chat Zalo <span className="font-bold text-[#D7181F]">0979 065 067</span>...
+              Chuyên viên Sóc Sơn sẽ gọi lại cho bạn qua số {phone} trong 15 phút để gửi tặng ưu đãi.
             </p>
-            <a
-              href={siteConfig.social.zaloPage}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md transition-all mt-2"
-            >
-              💬 BẤM VÀO ĐÂY ĐỂ MỞ ZALO NGAY
-            </a>
           </div>
         )}
       </div>
