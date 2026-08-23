@@ -142,10 +142,10 @@ export default async function HomePage() {
                   />
 
                   {/* Floating Overlay Badge */}
-                  <div className="absolute bottom-4 sm:bottom-6 left-3 sm:left-6 right-3 sm:right-6 p-3 sm:p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                  <div className="absolute bottom-3 sm:bottom-6 left-2.5 sm:left-6 right-2.5 sm:right-6 p-2.5 sm:p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-1.5 sm:gap-2 text-center sm:text-left">
+                    <div className="flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 min-w-0">
                       <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#D7181F] animate-pulse shrink-0" />
-                      <div className="text-xs sm:text-sm font-black text-[#04266F] uppercase tracking-wide whitespace-nowrap">
+                      <div className="text-[11px] sm:text-sm font-black text-[#04266F] uppercase tracking-wide whitespace-nowrap">
                         PHỤC VỤ CHÍNH TẠI <span className="text-[#D7181F]">HÀ NỘI</span>
                       </div>
                     </div>
