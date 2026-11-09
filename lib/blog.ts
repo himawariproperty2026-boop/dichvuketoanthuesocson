@@ -159,7 +159,7 @@ function parsePostFromMarkdown(slug: string, fileContents: string): BlogPost {
       avatar: data.author?.avatar || "/images/team/author-default.jpg",
       role: data.author?.role || "Chuyên gia Kế toán Thuế",
     },
-    category: data.category || "Kế toán - Thuế",
+    category: String(data.category || "Kế toán - Thuế").split("|")[0].trim(),
     tags: Array.isArray(data.tags) ? data.tags : [],
     readingTime: data.readingTime || "6 phút đọc",
     isNew: Boolean(data.isNew),
@@ -211,7 +211,7 @@ async function fetchN8nServerBlogPosts(): Promise<BlogPost[]> {
       method: "GET",
       headers: { Accept: "application/json" },
       signal: controller.signal,
-      next: { revalidate: 30 },
+      cache: "no-store",
     });
     clearTimeout(timer);
     if (!res.ok) return [];

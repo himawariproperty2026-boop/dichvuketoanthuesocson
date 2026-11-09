@@ -1,14 +1,12 @@
 ---
 title: >-
   Kinh nghiệm sử dụng dịch vụ kế toán thuế cho xưởng sản xuất cơ khí Sóc Sơn
-  tiết
+  tiết kiệm và hiệu quả
 excerpt: >-
   Chia sẻ kinh nghiệm sử dụng dịch vụ kế toán thuế cho xưởng sản xuất cơ khí Sóc
   Sơn giúp tiết kiệm chi phí, đảm bảo tuân thủ pháp luật và tối ưu lợi ích thuế.
 date: '2026-11-09'
-category: >-
-  Kinh nghiệm kế toán|Chính sách Thuế|Thành lập công ty|Quyết toán thuế|Hộ kinh
-  doanh
+category: Kinh nghiệm kế toán
 author:
   name: Ban Biên Tập Minh Hoá Protax
   role: Chuyên gia Kế toán - Thuế Minh Hoá Protax

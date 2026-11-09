@@ -113,7 +113,7 @@ export async function POST(request: Request) {
 
     const category =
       typeof payload?.category === "string" && payload.category.trim()
-        ? payload.category.trim()
+        ? payload.category.split("|")[0].trim()
         : "Kinh nghiệm kế toán";
 
     const authorName =

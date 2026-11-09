@@ -8,7 +8,8 @@ import { ContactPopup } from "@/components/ContactPopup";
 import { BlogCard } from "@/components/BlogCard";
 import { getAllBlogPosts, getBlogCategories } from "@/lib/blog";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata = {
   title: "Blog Kinh Nghiệm Kế Toán Thuế & Thành Lập Doanh Nghiệp Sóc Sơn",
