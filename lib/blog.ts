@@ -1,4 +1,5 @@
 import fs from "fs";
+import os from "os";
 import path from "path";
 import matter from "gray-matter";
 
@@ -34,10 +35,46 @@ export interface BlogPost {
 }
 
 const BLOG_DIRECTORY = path.join(process.cwd(), "content/blog");
+const TMP_BLOG_STORE_PATH = path.join(os.tmpdir(), "ketoansocson-n8n-blogs.json");
 export const KV_BLOG_HASH_KEY = "n8n_blog_posts";
-const DEFAULT_GITHUB_REPO =
-  process.env.GITHUB_REPO || "himawariproperty2026-boop/dichvuketoanthuesocson";
-const DEFAULT_GITHUB_BRANCH = process.env.GITHUB_BRANCH || "main";
+const DEFAULT_N8N_STORAGE_WEBHOOK =
+  process.env.N8N_STORAGE_WEBHOOK_URL ||
+  "https://n8n.facebookflow.io.vn/webhook/ketoanthuesocson-blogs";
+
+const globalForBlog = globalThis as unknown as {
+  __n8nBlogStore?: Record<string, BlogPost>;
+};
+
+function getMemoryStore(): Record<string, BlogPost> {
+  if (!globalForBlog.__n8nBlogStore) {
+    globalForBlog.__n8nBlogStore = {};
+  }
+  return globalForBlog.__n8nBlogStore;
+}
+
+function readTmpStore(): Record<string, BlogPost> {
+  try {
+    if (fs.existsSync(TMP_BLOG_STORE_PATH)) {
+      const raw = fs.readFileSync(TMP_BLOG_STORE_PATH, "utf8");
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        return parsed as Record<string, BlogPost>;
+      }
+    }
+  } catch {
+    // Ignore tmp read errors
+  }
+  return {};
+}
+
+function writeTmpStore(store: Record<string, BlogPost>): boolean {
+  try {
+    fs.writeFileSync(TMP_BLOG_STORE_PATH, JSON.stringify(store), "utf8");
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Convert structured JSON content blocks (from n8n workflow) into clean Markdown
@@ -132,10 +169,6 @@ function parsePostFromMarkdown(slug: string, fileContents: string): BlogPost {
   };
 }
 
-/**
- * Optional Upstash Redis / Vercel KV reader so posts published via /api/n8n/publish
- * appear immediately even before a static rebuild finishes.
- */
 async function fetchKvBlogPosts(): Promise<BlogPost[]> {
   const kvUrl = process.env.KV_REST_API_URL?.replace(/\/$/, "");
   const kvToken = process.env.KV_REST_API_TOKEN;
@@ -144,7 +177,7 @@ async function fetchKvBlogPosts(): Promise<BlogPost[]> {
   try {
     const res = await fetch(`${kvUrl}/hgetall/${KV_BLOG_HASH_KEY}`, {
       headers: { Authorization: `Bearer ${kvToken}` },
-      next: { revalidate: 60 },
+      next: { revalidate: 30 },
     });
     if (!res.ok) return [];
     const payload = await res.json();
@@ -169,135 +202,131 @@ async function fetchKvBlogPosts(): Promise<BlogPost[]> {
   }
 }
 
-async function fetchKvBlogPostBySlug(slug: string): Promise<BlogPost | null> {
-  const kvUrl = process.env.KV_REST_API_URL?.replace(/\/$/, "");
-  const kvToken = process.env.KV_REST_API_TOKEN;
-  if (!kvUrl || !kvToken) return null;
-
+async function fetchN8nServerBlogPosts(): Promise<BlogPost[]> {
+  if (!DEFAULT_N8N_STORAGE_WEBHOOK) return [];
   try {
-    const res = await fetch(
-      `${kvUrl}/hget/${KV_BLOG_HASH_KEY}/${encodeURIComponent(slug)}`,
-      {
-        headers: { Authorization: `Bearer ${kvToken}` },
-        next: { revalidate: 60 },
-      }
-    );
-    if (!res.ok) return null;
-    const payload = await res.json();
-    if (!payload?.result || typeof payload.result !== "string") return null;
-    return JSON.parse(payload.result) as BlogPost;
-  } catch {
-    return null;
-  }
-}
-
-async function fetchGithubBlogPostBySlug(slug: string): Promise<BlogPost | null> {
-  const safeSlug = String(slug || "").replace(/[^a-z0-9-]/gi, "");
-  if (!safeSlug) return null;
-
-  const ghHeaders: Record<string, string> = {
-    Accept: "application/vnd.github.raw+json",
-    "User-Agent": "MinhHoaProtax-Blog-Reader",
-  };
-  if (process.env.GITHUB_TOKEN) {
-    ghHeaders.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-  }
-
-  // 1. Try GitHub Contents API (instant 0-second update after /api/n8n/publish commits)
-  try {
-    const apiUrl = `https://api.github.com/repos/${DEFAULT_GITHUB_REPO}/contents/content/blog/${encodeURIComponent(
-      safeSlug
-    )}.md?ref=${encodeURIComponent(DEFAULT_GITHUB_BRANCH)}`;
-    const res = await fetch(apiUrl, {
-      headers: ghHeaders,
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 3500);
+    const res = await fetch(DEFAULT_N8N_STORAGE_WEBHOOK, {
+      method: "GET",
+      headers: { Accept: "application/json" },
+      signal: controller.signal,
       next: { revalidate: 30 },
     });
-    if (res.ok) {
-      const markdownText = await res.text();
-      if (markdownText && markdownText.includes("---")) {
-        return parsePostFromMarkdown(safeSlug, markdownText);
-      }
-    }
-  } catch {
-    // Fallback to raw.githubusercontent.com below
-  }
-
-  // 2. Fallback to raw.githubusercontent.com
-  try {
-    const rawUrl = `https://raw.githubusercontent.com/${DEFAULT_GITHUB_REPO}/${encodeURIComponent(
-      DEFAULT_GITHUB_BRANCH
-    )}/content/blog/${encodeURIComponent(safeSlug)}.md`;
-    const res = await fetch(rawUrl, { next: { revalidate: 30 } });
-    if (res.ok) {
-      const markdownText = await res.text();
-      if (markdownText && markdownText.includes("---")) {
-        return parsePostFromMarkdown(safeSlug, markdownText);
-      }
-    }
-  } catch {
-    // Ignore
-  }
-
-  return null;
-}
-
-async function fetchGithubMissingBlogPosts(
-  existingSlugs: Set<string>
-): Promise<BlogPost[]> {
-  try {
-    const ghHeaders: Record<string, string> = {
-      Accept: "application/vnd.github+json",
-      "User-Agent": "MinhHoaProtax-Blog-Reader",
-    };
-    if (process.env.GITHUB_TOKEN) {
-      ghHeaders.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-    }
-
-    const listUrl = `https://api.github.com/repos/${DEFAULT_GITHUB_REPO}/contents/content/blog?ref=${encodeURIComponent(
-      DEFAULT_GITHUB_BRANCH
-    )}`;
-    const res = await fetch(listUrl, {
-      headers: ghHeaders,
-      next: { revalidate: 60 },
-    });
+    clearTimeout(timer);
     if (!res.ok) return [];
-
-    const items = await res.json();
-    if (!Array.isArray(items)) return [];
-
-    const missingSlugs: string[] = [];
-    for (const item of items) {
-      if (
-        item &&
-        typeof item.name === "string" &&
-        (item.name.endsWith(".md") || item.name.endsWith(".mdx"))
-      ) {
-        const slug = item.name.replace(/\.mdx?$/, "");
-        if (!existingSlugs.has(slug)) {
-          missingSlugs.push(slug);
-        }
-      }
-    }
-
-    if (missingSlugs.length === 0) return [];
-
-    const fetched = await Promise.all(
-      missingSlugs.slice(0, 15).map((slug) => fetchGithubBlogPostBySlug(slug))
+    const data = await res.json();
+    const list = Array.isArray(data?.posts)
+      ? data.posts
+      : Array.isArray(data)
+        ? data
+        : [];
+    return list.filter((p: unknown): p is BlogPost =>
+      Boolean(p && typeof p === "object" && (p as BlogPost).slug && (p as BlogPost).title)
     );
-    return fetched.filter((p): p is BlogPost => p !== null);
   } catch {
     return [];
   }
 }
 
 /**
+ * Save a published blog post directly to the website storage (Memory + Runtime Cache + Local Disk if writable + User's n8n Server)
+ * without going through GitHub.
+ */
+export async function saveDirectPublishedPost(
+  post: BlogPost,
+  markdownFileContent: string
+): Promise<{ savedTargets: string[]; warnings: string[] }> {
+  const savedTargets: string[] = [];
+  const warnings: string[] = [];
+
+  // 1. Save to in-memory runtime store & /tmp store (works immediately on both Vercel & VPS)
+  const memStore = getMemoryStore();
+  const tmpStore = readTmpStore();
+  const mergedStore: Record<string, BlogPost> = {
+    ...tmpStore,
+    ...memStore,
+    [post.slug]: post,
+  };
+  globalForBlog.__n8nBlogStore = mergedStore;
+  savedTargets.push("web_memory_cache");
+
+  if (writeTmpStore(mergedStore)) {
+    savedTargets.push("web_disk_cache");
+  }
+
+  // 2. If content/blog is writable (self-hosted VPS / local server), write .md file directly
+  try {
+    if (!fs.existsSync(BLOG_DIRECTORY)) {
+      fs.mkdirSync(BLOG_DIRECTORY, { recursive: true });
+    }
+    fs.writeFileSync(
+      path.join(BLOG_DIRECTORY, `${post.slug}.md`),
+      markdownFileContent,
+      "utf8"
+    );
+    savedTargets.push("content_blog_dir");
+  } catch {
+    // Expected on read-only serverless container (/var/task)
+  }
+
+  // 3. Optional Upstash KV if configured
+  const kvUrl = process.env.KV_REST_API_URL?.replace(/\/$/, "");
+  const kvToken = process.env.KV_REST_API_TOKEN;
+  if (kvUrl && kvToken) {
+    try {
+      const res = await fetch(kvUrl, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${kvToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify([
+          "HSET",
+          KV_BLOG_HASH_KEY,
+          post.slug,
+          JSON.stringify(post),
+        ]),
+      });
+      if (res.ok) {
+        savedTargets.push("upstash_kv");
+      }
+    } catch (e) {
+      warnings.push(e instanceof Error ? e.message : String(e));
+    }
+  }
+
+  // 4. Sync back to user's n8n server storage webhook (if active) so user's server DB persists all posts
+  if (DEFAULT_N8N_STORAGE_WEBHOOK) {
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 3500);
+      const syncRes = await fetch(DEFAULT_N8N_STORAGE_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "save", post }),
+        signal: controller.signal,
+      });
+      clearTimeout(timer);
+      if (syncRes.ok) {
+        savedTargets.push("n8n_server_db");
+      }
+    } catch {
+      // Non-fatal if webhook is not yet activated
+    }
+  }
+
+  return { savedTargets, warnings };
+}
+
+/**
  * Data Access Layer for Blog Posts
- * Reads local Markdown (.md / .mdx) files from /content/blog/, merges live KV posts,
- * and falls back to GitHub repository contents so newly published n8n posts go live immediately.
+ * Reads local Markdown files + direct web runtime store + user's n8n server storage (Zero GitHub dependency).
  */
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
   const postMap = new Map<string, BlogPost>();
 
+  // 1. Built-in / local Markdown files
   if (fs.existsSync(BLOG_DIRECTORY)) {
     const fileNames = fs.readdirSync(BLOG_DIRECTORY);
     for (const fileName of fileNames) {
@@ -309,14 +338,29 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
     }
   }
 
-  const kvPosts = await fetchKvBlogPosts();
-  for (const kvPost of kvPosts) {
-    postMap.set(kvPost.slug, kvPost);
+  // 2. Direct web disk cache (/tmp) & memory cache
+  const tmpStore = readTmpStore();
+  const memStore = getMemoryStore();
+  for (const post of Object.values({ ...tmpStore, ...memStore })) {
+    if (post?.slug && post?.title) {
+      postMap.set(post.slug, post);
+    }
   }
 
-  const githubPosts = await fetchGithubMissingBlogPosts(new Set(postMap.keys()));
-  for (const ghPost of githubPosts) {
-    postMap.set(ghPost.slug, ghPost);
+  // 3. User's n8n server persistent storage & optional KV
+  const [n8nPosts, kvPosts] = await Promise.all([
+    fetchN8nServerBlogPosts(),
+    fetchKvBlogPosts(),
+  ]);
+
+  for (const n8nPost of n8nPosts) {
+    postMap.set(n8nPost.slug, n8nPost);
+    memStore[n8nPost.slug] = n8nPost;
+  }
+
+  for (const kvPost of kvPosts) {
+    postMap.set(kvPost.slug, kvPost);
+    memStore[kvPost.slug] = kvPost;
   }
 
   return Array.from(postMap.values()).sort((a, b) => {
@@ -328,11 +372,18 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
 
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
   try {
-    const kvPost = await fetchKvBlogPostBySlug(slug);
-    if (kvPost) {
-      return kvPost;
+    // 1. Check direct memory & /tmp store first (0ms latency for newly pushed articles)
+    const memStore = getMemoryStore();
+    if (memStore[slug]) {
+      return memStore[slug];
+    }
+    const tmpStore = readTmpStore();
+    if (tmpStore[slug]) {
+      memStore[slug] = tmpStore[slug];
+      return tmpStore[slug];
     }
 
+    // 2. Check local content/blog directory
     const fullPathMd = path.join(BLOG_DIRECTORY, `${slug}.md`);
     const fullPathMdx = path.join(BLOG_DIRECTORY, `${slug}.mdx`);
 
@@ -345,8 +396,22 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
       return parsePostFromMarkdown(slug, fileContents);
     }
 
-    // Live fallback to GitHub for articles published after the current Vercel build
-    return await fetchGithubBlogPostBySlug(slug);
+    // 3. Check user's n8n server storage & optional KV
+    const allDynamic = await Promise.all([
+      fetchN8nServerBlogPosts(),
+      fetchKvBlogPosts(),
+    ]);
+    for (const list of allDynamic) {
+      for (const item of list) {
+        if (item.slug === slug) {
+          memStore[slug] = item;
+          writeTmpStore({ ...tmpStore, ...memStore });
+          return item;
+        }
+      }
+    }
+
+    return null;
   } catch (error) {
     console.error(`Error loading blog post [${slug}]:`, error);
     return null;
