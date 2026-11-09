@@ -2,6 +2,17 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
+export interface BlogContentBlock {
+  type: "heading" | "subheading" | "paragraph" | "list" | "alert";
+  text?: string;
+  items?: string[];
+}
+
+export interface BlogFaqItem {
+  question: string;
+  answer: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -18,58 +29,205 @@ export interface BlogPost {
   readingTime: string;
   isNew?: boolean;
   content: string;
+  blocks?: BlogContentBlock[];
+  faqs?: BlogFaqItem[];
 }
 
 const BLOG_DIRECTORY = path.join(process.cwd(), "content/blog");
+export const KV_BLOG_HASH_KEY = "n8n_blog_posts";
+
+/**
+ * Convert structured JSON content blocks (from n8n workflow) into clean Markdown
+ */
+export function blocksToMarkdown(blocks: BlogContentBlock[]): string {
+  if (!Array.isArray(blocks) || blocks.length === 0) return "";
+
+  return blocks
+    .map((block) => {
+      switch (block.type) {
+        case "heading":
+          return `## ${(block.text || "").trim()}`;
+        case "subheading":
+          return `### ${(block.text || "").trim()}`;
+        case "list":
+          if (!Array.isArray(block.items) || block.items.length === 0) return "";
+          return block.items.map((item) => `- ${String(item).trim()}`).join("\n");
+        case "alert":
+          return `> **Lưu ý quan trọng:** ${(block.text || "").trim()}`;
+        case "paragraph":
+        default:
+          return (block.text || "").trim();
+      }
+    })
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+/**
+ * Extract FAQ pairs from structured blocks (under "Câu hỏi thường gặp (FAQ)" heading)
+ */
+export function extractFaqsFromBlocks(blocks?: BlogContentBlock[]): BlogFaqItem[] {
+  if (!Array.isArray(blocks) || blocks.length === 0) return [];
+
+  const faqs: BlogFaqItem[] = [];
+  let inFaqSection = false;
+  let currentQuestion = "";
+
+  for (const block of blocks) {
+    if (block.type === "heading") {
+      const headingText = (block.text || "").toLowerCase();
+      inFaqSection =
+        headingText.includes("faq") || headingText.includes("câu hỏi thường gặp");
+      currentQuestion = "";
+      continue;
+    }
+
+    if (!inFaqSection) continue;
+
+    if (block.type === "subheading" && block.text) {
+      currentQuestion = block.text.replace(/^\d+[\.\)]\s*/, "").trim();
+    } else if (block.type === "paragraph" && currentQuestion && block.text) {
+      faqs.push({
+        question: currentQuestion,
+        answer: block.text.trim(),
+      });
+      currentQuestion = "";
+    }
+  }
+
+  return faqs;
+}
+
+function parsePostFromMarkdown(slug: string, fileContents: string): BlogPost {
+  const { data, content } = matter(fileContents);
+  const blocks = Array.isArray(data.blocks) ? (data.blocks as BlogContentBlock[]) : undefined;
+  const faqs = Array.isArray(data.faqs)
+    ? (data.faqs as BlogFaqItem[])
+    : extractFaqsFromBlocks(blocks);
+
+  return {
+    slug,
+    title: data.title || "Bài viết kế toán thuế",
+    excerpt: data.excerpt || "",
+    coverImage: data.coverImage || "/images/blog/placeholder.jpg",
+    date: data.date || new Date().toISOString().split("T")[0],
+    author: {
+      name:
+        typeof data.author === "string"
+          ? data.author
+          : data.author?.name || "Ban Biên Tập Minh Hoá Protax",
+      avatar: data.author?.avatar || "/images/team/author-default.jpg",
+      role: data.author?.role || "Chuyên gia Kế toán Thuế",
+    },
+    category: data.category || "Kế toán - Thuế",
+    tags: Array.isArray(data.tags) ? data.tags : [],
+    readingTime: data.readingTime || "6 phút đọc",
+    isNew: Boolean(data.isNew),
+    content,
+    blocks,
+    faqs,
+  };
+}
+
+/**
+ * Optional Upstash Redis / Vercel KV reader so posts published via /api/n8n/publish
+ * appear immediately even before a static rebuild finishes.
+ */
+async function fetchKvBlogPosts(): Promise<BlogPost[]> {
+  const kvUrl = process.env.KV_REST_API_URL?.replace(/\/$/, "");
+  const kvToken = process.env.KV_REST_API_TOKEN;
+  if (!kvUrl || !kvToken) return [];
+
+  try {
+    const res = await fetch(`${kvUrl}/hgetall/${KV_BLOG_HASH_KEY}`, {
+      headers: { Authorization: `Bearer ${kvToken}` },
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const payload = await res.json();
+    const rawList: string[] = Array.isArray(payload?.result) ? payload.result : [];
+
+    const posts: BlogPost[] = [];
+    for (let i = 0; i < rawList.length; i += 2) {
+      const rawJson = rawList[i + 1];
+      if (!rawJson) continue;
+      try {
+        const parsed = JSON.parse(rawJson) as BlogPost;
+        if (parsed?.slug && parsed?.title) {
+          posts.push(parsed);
+        }
+      } catch {
+        // Ignore malformed entry
+      }
+    }
+    return posts;
+  } catch {
+    return [];
+  }
+}
+
+async function fetchKvBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  const kvUrl = process.env.KV_REST_API_URL?.replace(/\/$/, "");
+  const kvToken = process.env.KV_REST_API_TOKEN;
+  if (!kvUrl || !kvToken) return null;
+
+  try {
+    const res = await fetch(
+      `${kvUrl}/hget/${KV_BLOG_HASH_KEY}/${encodeURIComponent(slug)}`,
+      {
+        headers: { Authorization: `Bearer ${kvToken}` },
+        next: { revalidate: 60 },
+      }
+    );
+    if (!res.ok) return null;
+    const payload = await res.json();
+    if (!payload?.result || typeof payload.result !== "string") return null;
+    return JSON.parse(payload.result) as BlogPost;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Data Access Layer for Blog Posts
- * Current implementation: Reads local Markdown (.md / .mdx) files from /content/blog/
- * Future upgrade path: Swap internal logic to fetch from Headless CMS (Sanity / Strapi / Decap)
+ * Reads local Markdown (.md / .mdx) files from /content/blog/ and merges any live KV posts.
  */
-
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
-  if (!fs.existsSync(BLOG_DIRECTORY)) {
-    return [];
-  }
+  const postMap = new Map<string, BlogPost>();
 
-  const fileNames = fs.readdirSync(BLOG_DIRECTORY);
-  const posts = fileNames
-    .filter((fileName) => fileName.endsWith(".md") || fileName.endsWith(".mdx"))
-    .map((fileName) => {
+  if (fs.existsSync(BLOG_DIRECTORY)) {
+    const fileNames = fs.readdirSync(BLOG_DIRECTORY);
+    for (const fileName of fileNames) {
+      if (!fileName.endsWith(".md") && !fileName.endsWith(".mdx")) continue;
       const slug = fileName.replace(/\.mdx?$/, "");
       const fullPath = path.join(BLOG_DIRECTORY, fileName);
       const fileContents = fs.readFileSync(fullPath, "utf8");
-      const { data, content } = matter(fileContents);
+      postMap.set(slug, parsePostFromMarkdown(slug, fileContents));
+    }
+  }
 
-      return {
-        slug,
-        title: data.title || "Bài viết kế toán thuế",
-        excerpt: data.excerpt || "",
-        coverImage: data.coverImage || "/images/blog/placeholder.jpg",
-        date: data.date || new Date().toISOString().split("T")[0],
-        author: {
-          name: data.author?.name || "Ban Biên Tập Sóc Sơn",
-          avatar: data.author?.avatar || "/images/team/author-default.jpg",
-          role: data.author?.role || "Chuyên gia Kế toán Thuế",
-        },
-        category: data.category || "Kế toán - Thuế",
-        tags: data.tags || [],
-        readingTime: data.readingTime || "5 phút đọc",
-        isNew: data.isNew || false,
-        content,
-      } as BlogPost;
-    });
+  const kvPosts = await fetchKvBlogPosts();
+  for (const kvPost of kvPosts) {
+    postMap.set(kvPost.slug, kvPost);
+  }
 
-  // Sort posts by date descending
-  return posts.sort((a, b) => (new Date(b.date).getTime() - new Date(a.date).getTime()));
+  return Array.from(postMap.values()).sort((a, b) => {
+    const timeA = new Date(a.date).getTime() || 0;
+    const timeB = new Date(b.date).getTime() || 0;
+    return timeB - timeA;
+  });
 }
 
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
   try {
+    const kvPost = await fetchKvBlogPostBySlug(slug);
+    if (kvPost) {
+      return kvPost;
+    }
+
     const fullPathMd = path.join(BLOG_DIRECTORY, `${slug}.md`);
     const fullPathMdx = path.join(BLOG_DIRECTORY, `${slug}.mdx`);
-    
+
     let fullPath = fullPathMd;
     if (!fs.existsSync(fullPathMd)) {
       if (fs.existsSync(fullPathMdx)) {
@@ -80,25 +238,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     }
 
     const fileContents = fs.readFileSync(fullPath, "utf8");
-    const { data, content } = matter(fileContents);
-
-    return {
-      slug,
-      title: data.title || "",
-      excerpt: data.excerpt || "",
-      coverImage: data.coverImage || "/images/blog/placeholder.jpg",
-      date: data.date || "",
-      author: {
-        name: data.author?.name || "Ban Biên Tập Sóc Sơn",
-        avatar: data.author?.avatar || "/images/team/author-default.jpg",
-        role: data.author?.role || "Chuyên gia Kế toán Thuế",
-      },
-      category: data.category || "Kế toán - Thuế",
-      tags: data.tags || [],
-      readingTime: data.readingTime || "5 phút đọc",
-      isNew: data.isNew || false,
-      content,
-    };
+    return parsePostFromMarkdown(slug, fileContents);
   } catch (error) {
     console.error(`Error loading blog post [${slug}]:`, error);
     return null;
@@ -111,9 +251,20 @@ export async function getBlogCategories(): Promise<string[]> {
   return ["Tất cả", ...categories];
 }
 
-export async function getRelatedBlogPosts(currentSlug: string, category: string, limit = 3): Promise<BlogPost[]> {
+export async function getRelatedBlogPosts(
+  currentSlug: string,
+  category: string,
+  limit = 3
+): Promise<BlogPost[]> {
   const posts = await getAllBlogPosts();
-  return posts
-    .filter((post) => post.slug !== currentSlug && post.category === category)
-    .slice(0, limit);
+  const sameCategory = posts.filter(
+    (post) => post.slug !== currentSlug && post.category === category
+  );
+  if (sameCategory.length >= limit) {
+    return sameCategory.slice(0, limit);
+  }
+  const others = posts.filter(
+    (post) => post.slug !== currentSlug && post.category !== category
+  );
+  return [...sameCategory, ...others].slice(0, limit);
 }

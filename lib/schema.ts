@@ -78,8 +78,12 @@ export function getArticleSchema(post: BlogPost) {
     headline: post.title,
     description: post.excerpt,
     image: [post.coverImage],
-    datePublished: new Date(post.date).toISOString(),
-    dateModified: new Date(post.date).toISOString(),
+    datePublished: Number.isNaN(new Date(post.date).getTime())
+      ? new Date().toISOString()
+      : new Date(post.date).toISOString(),
+    dateModified: Number.isNaN(new Date(post.date).getTime())
+      ? new Date().toISOString()
+      : new Date(post.date).toISOString(),
     author: {
       "@type": "Organization",
       name: post.author.name,

@@ -9,9 +9,10 @@ import { Footer } from "@/components/Footer";
 import { FloatingButtons } from "@/components/FloatingButtons";
 import { ContactPopup } from "@/components/ContactPopup";
 import { BlogCard } from "@/components/BlogCard";
+import { BlogContentRenderer } from "@/components/BlogContentRenderer";
 import { ContactFormSection } from "@/components/ContactFormSection";
 import { getBlogPostBySlug, getRelatedBlogPosts, getAllBlogPosts } from "@/lib/blog";
-import { getArticleSchema, getBreadcrumbSchema } from "@/lib/schema";
+import { getArticleSchema, getBreadcrumbSchema, getFaqSchema } from "@/lib/schema";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -60,6 +61,8 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
     { name: "Blog", item: "/blog" },
     { name: post.title, item: `/blog/${post.slug}` },
   ]);
+  const faqSchema =
+    post.faqs && post.faqs.length > 0 ? getFaqSchema(post.faqs) : null;
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
@@ -71,6 +74,12 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
 
       <Header />
 
@@ -134,10 +143,12 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
               />
             </div>
 
-            {/* Markdown Body Content Render */}
-            <div className="prose prose-lg max-w-none text-slate-800 leading-relaxed whitespace-pre-line space-y-4">
-              {post.content}
-            </div>
+            {/* Structured & Markdown Body Content Render */}
+            <BlogContentRenderer
+              content={post.content}
+              blocks={post.blocks}
+              postTitle={post.title}
+            />
 
             {/* Post Tags */}
             {post.tags && post.tags.length > 0 && (
