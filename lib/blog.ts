@@ -35,6 +35,9 @@ export interface BlogPost {
 
 const BLOG_DIRECTORY = path.join(process.cwd(), "content/blog");
 export const KV_BLOG_HASH_KEY = "n8n_blog_posts";
+const DEFAULT_GITHUB_REPO =
+  process.env.GITHUB_REPO || "himawariproperty2026-boop/dichvuketoanthuesocson";
+const DEFAULT_GITHUB_BRANCH = process.env.GITHUB_BRANCH || "main";
 
 /**
  * Convert structured JSON content blocks (from n8n workflow) into clean Markdown
@@ -188,9 +191,109 @@ async function fetchKvBlogPostBySlug(slug: string): Promise<BlogPost | null> {
   }
 }
 
+async function fetchGithubBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  const safeSlug = String(slug || "").replace(/[^a-z0-9-]/gi, "");
+  if (!safeSlug) return null;
+
+  const ghHeaders: Record<string, string> = {
+    Accept: "application/vnd.github.raw+json",
+    "User-Agent": "MinhHoaProtax-Blog-Reader",
+  };
+  if (process.env.GITHUB_TOKEN) {
+    ghHeaders.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  }
+
+  // 1. Try GitHub Contents API (instant 0-second update after /api/n8n/publish commits)
+  try {
+    const apiUrl = `https://api.github.com/repos/${DEFAULT_GITHUB_REPO}/contents/content/blog/${encodeURIComponent(
+      safeSlug
+    )}.md?ref=${encodeURIComponent(DEFAULT_GITHUB_BRANCH)}`;
+    const res = await fetch(apiUrl, {
+      headers: ghHeaders,
+      next: { revalidate: 30 },
+    });
+    if (res.ok) {
+      const markdownText = await res.text();
+      if (markdownText && markdownText.includes("---")) {
+        return parsePostFromMarkdown(safeSlug, markdownText);
+      }
+    }
+  } catch {
+    // Fallback to raw.githubusercontent.com below
+  }
+
+  // 2. Fallback to raw.githubusercontent.com
+  try {
+    const rawUrl = `https://raw.githubusercontent.com/${DEFAULT_GITHUB_REPO}/${encodeURIComponent(
+      DEFAULT_GITHUB_BRANCH
+    )}/content/blog/${encodeURIComponent(safeSlug)}.md`;
+    const res = await fetch(rawUrl, { next: { revalidate: 30 } });
+    if (res.ok) {
+      const markdownText = await res.text();
+      if (markdownText && markdownText.includes("---")) {
+        return parsePostFromMarkdown(safeSlug, markdownText);
+      }
+    }
+  } catch {
+    // Ignore
+  }
+
+  return null;
+}
+
+async function fetchGithubMissingBlogPosts(
+  existingSlugs: Set<string>
+): Promise<BlogPost[]> {
+  try {
+    const ghHeaders: Record<string, string> = {
+      Accept: "application/vnd.github+json",
+      "User-Agent": "MinhHoaProtax-Blog-Reader",
+    };
+    if (process.env.GITHUB_TOKEN) {
+      ghHeaders.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+    }
+
+    const listUrl = `https://api.github.com/repos/${DEFAULT_GITHUB_REPO}/contents/content/blog?ref=${encodeURIComponent(
+      DEFAULT_GITHUB_BRANCH
+    )}`;
+    const res = await fetch(listUrl, {
+      headers: ghHeaders,
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+
+    const items = await res.json();
+    if (!Array.isArray(items)) return [];
+
+    const missingSlugs: string[] = [];
+    for (const item of items) {
+      if (
+        item &&
+        typeof item.name === "string" &&
+        (item.name.endsWith(".md") || item.name.endsWith(".mdx"))
+      ) {
+        const slug = item.name.replace(/\.mdx?$/, "");
+        if (!existingSlugs.has(slug)) {
+          missingSlugs.push(slug);
+        }
+      }
+    }
+
+    if (missingSlugs.length === 0) return [];
+
+    const fetched = await Promise.all(
+      missingSlugs.slice(0, 15).map((slug) => fetchGithubBlogPostBySlug(slug))
+    );
+    return fetched.filter((p): p is BlogPost => p !== null);
+  } catch {
+    return [];
+  }
+}
+
 /**
  * Data Access Layer for Blog Posts
- * Reads local Markdown (.md / .mdx) files from /content/blog/ and merges any live KV posts.
+ * Reads local Markdown (.md / .mdx) files from /content/blog/, merges live KV posts,
+ * and falls back to GitHub repository contents so newly published n8n posts go live immediately.
  */
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
   const postMap = new Map<string, BlogPost>();
@@ -211,6 +314,11 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
     postMap.set(kvPost.slug, kvPost);
   }
 
+  const githubPosts = await fetchGithubMissingBlogPosts(new Set(postMap.keys()));
+  for (const ghPost of githubPosts) {
+    postMap.set(ghPost.slug, ghPost);
+  }
+
   return Array.from(postMap.values()).sort((a, b) => {
     const timeA = new Date(a.date).getTime() || 0;
     const timeB = new Date(b.date).getTime() || 0;
@@ -228,17 +336,17 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     const fullPathMd = path.join(BLOG_DIRECTORY, `${slug}.md`);
     const fullPathMdx = path.join(BLOG_DIRECTORY, `${slug}.mdx`);
 
-    let fullPath = fullPathMd;
-    if (!fs.existsSync(fullPathMd)) {
-      if (fs.existsSync(fullPathMdx)) {
-        fullPath = fullPathMdx;
-      } else {
-        return null;
-      }
+    if (fs.existsSync(fullPathMd)) {
+      const fileContents = fs.readFileSync(fullPathMd, "utf8");
+      return parsePostFromMarkdown(slug, fileContents);
+    }
+    if (fs.existsSync(fullPathMdx)) {
+      const fileContents = fs.readFileSync(fullPathMdx, "utf8");
+      return parsePostFromMarkdown(slug, fileContents);
     }
 
-    const fileContents = fs.readFileSync(fullPath, "utf8");
-    return parsePostFromMarkdown(slug, fileContents);
+    // Live fallback to GitHub for articles published after the current Vercel build
+    return await fetchGithubBlogPostBySlug(slug);
   } catch (error) {
     console.error(`Error loading blog post [${slug}]:`, error);
     return null;
